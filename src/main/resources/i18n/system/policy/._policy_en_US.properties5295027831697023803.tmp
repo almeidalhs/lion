@@ -1,0 +1,10 @@
+sys.policy.html.title=\u4fdd\u5355\u7ba1\u7406
+sys.policy.html.policyType=\u6295\u4fdd\u7c7b\u578b
+sys.policy.html.tip.policyType=\u8bf7\u8f93\u5165\u6295\u4fdd\u7c7b\u578b
+sys.policy.html.pinsuredName=\u88ab\u4fdd\u4eba\u59d3\u540d
+sys.policy.add.success=\u6dfb\u52a0\u6210\u529f
+sys.policy.form.adddialog.text=\u6dfb\u52a0\u4fdd\u5355
+sys.policy.delete.success=\u5220\u9664\u6210\u529f
+sys.ploicy.delete.fail=\u5220\u9664\u5931\u8d25
+sys.policy.edit.success=\u7f16\u8f91\u6210\u529f
+sys.policy.form.id.empty=id\u4e3a\u7a7a

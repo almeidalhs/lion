@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<package>com.newtouch.starter.policy</package>
+	<access>PROPERTY</access>
+	
+	
+	<!-- treegrid-->
+	<entity class="TreeGrid">
+		<table name="BAS_TREEGRID" />
+		<attributes>
+			<id name="id">
+				<column name="BAS_TREEGRID_ID" unique="true" nullable="false"
+					precision="11" scale="0" />
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="parentTreeGridId">
+				<column name="PARENT_BAS_TREEGRID_ID" precision="11" scale="0" />
+			</basic>
+			<basic name="type">
+				<column name="TYPE_" length="256" nullable="false" />
+			</basic>
+			<basic name="path">
+				<column name="PATH" unique="true" length="1024" nullable="false" />
+			</basic>
+			<basic name="nameZh">
+				<column name="NAME_ZH" length="256" nullable="true" unique="true" />
+			</basic>
+			<basic name="nameEn">
+				<column name="NAME_EN" length="256" nullable="true" unique="true" />
+			</basic>
+			<basic name="editable">
+				<column name="EDITABLE" precision="1" scale="0" />
+			</basic>
+			<basic name="description">
+				<column name="DESCRIPTION" length="256" nullable="true" />
+			</basic>
+			<basic name="seqNum">
+				<column name="SEQ_NUM" precision="11" scale="0" nullable="false" />
+			</basic>
+			<basic name="isLeaf">
+				<column name="IS_LEAF" precision="1" scale="0" nullable="false" />
+			</basic>
+			<basic name="target">
+				<column name="TARGET" length="16" nullable="false" />
+			</basic>
+			<basic name="permission">
+				<column name="PERMISSION" length="30" nullable="false" />
+			</basic>
+			<many-to-one name="treeGrid" fetch="LAZY">
+				<join-column name="PARENT_BAS_TREEGRID_ID" insertable="false" updatable="false" />
+			</many-to-one>
+			<one-to-many name="treeGrids" fetch="LAZY" mapped-by="treeGrid">
+				<cascade>
+					<cascade-remove/>
+				</cascade>
+			</one-to-many>
+			<many-to-many name="roles" fetch="LAZY">
+				<join-table name="BAS_ROLE_RESOURCE">
+					<join-column name="BAS_RESOURCE_ID" insertable="false" updatable="false"/>
+					<inverse-join-column  name="BAS_ROLE_ID" insertable="false" updatable="false"/>
+				</join-table>
+				<cascade>
+					<cascade-merge />
+				</cascade>
+			</many-to-many>
+			<embedded name="attributes">
+					<attribute-override name="path">
+						 <column  name="path" nullable="false" insertable="false" updatable="false"/>
+					</attribute-override>
+			</embedded>
+		</attributes>
+	</entity>
+	
+</entity-mappings>

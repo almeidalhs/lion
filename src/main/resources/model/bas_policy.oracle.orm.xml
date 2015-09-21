@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<package>com.newtouch.starter.policy</package>
+	<access>PROPERTY</access>
+	
+	<!-- 保单信息 -->
+	<entity class="Policy">
+		<table name="BAS_POLICY" />
+		<attributes>
+			<id name="id">
+				<column name="policy_id" unique="true" nullable="false" precision="11" scale="0" />
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="policyType">
+				<column name="POLICY_TYPE" length="500" nullable="true"/>
+			</basic>
+			<basic name="insuredName">
+				<column name="INSURED_NAME" length="500" nullable="true"/>
+			</basic>
+		</attributes>
+	</entity>
+</entity-mappings>
