@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<package>com.newtouch.starter.showcategory</package>
+	<access>PROPERTY</access>
+	
+	<!-- 项目信息 -->
+	<entity class="ShowCategory">
+		<table name="BAS_SHOWCATEGORY" />
+		<attributes>
+			<id name="id">
+				<column name="category_id" unique="true" nullable="false" precision="11" scale="0" />
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="categoryName">
+				<column name="CategoryName" length="50" nullable="true"/>
+			</basic>
+			<basic name="createDate">
+				<column name="CreateDate" nullable="true"/>
+			</basic>
+			<basic name="pCategoryId">
+				<column name="PCategory_ID" nullable="true" updatable="true"/>
+			</basic>
+			<basic name="orderNum">
+				<column name="OrderNum" nullable="true"/>
+			</basic>
+			<basic name="year">
+				<column name="Year" nullable="true"/>
+			</basic>
+			<basic name="isChild">
+				<column name="IsChild" nullable="true"/>
+			</basic>
+			<basic name="categoryType">
+				<column name="CategoryType" nullable="true"/>
+			</basic>
+			<many-to-one name="category" fetch="LAZY">
+				<join-column name="PCategory_ID" insertable="false" updatable="false"/>
+			</many-to-one>
+			<one-to-many name="categorys" fetch="LAZY" mapped-by="category">
+				<cascade>
+					 <cascade-remove/>
+				</cascade>
+			</one-to-many>
+			
+			<transient name="sortedChildCategory" />
+		</attributes>
+	</entity>
+</entity-mappings>

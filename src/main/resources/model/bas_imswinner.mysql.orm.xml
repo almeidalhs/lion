@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<package>com.newtouch.starter.winner</package>
+	<access>PROPERTY</access>
+	
+	<!-- 项目信息 -->
+	<entity class="Winner">
+		<table name="BAS_IMSWinner" />
+		<attributes>
+			<id name="id">
+				<column name="winner_id" unique="true" nullable="false" precision="11" scale="0" />
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="category_id">
+				<column name="category_id" length="50" nullable="true"/>
+			</basic>
+			<basic name="year">
+				<column name="year" nullable="true"/>
+			</basic>
+			<basic name="stusign_id">
+				<column name="stusign_id" nullable="true"/>
+			</basic>
+			<basic name="reward_id">
+				<column name="reward_id" nullable="true"/>
+			</basic>
+			<basic name="reward_name">
+				<column name="reward_name" nullable="true"/>
+			</basic>
+		</attributes>
+	</entity>
+</entity-mappings>
