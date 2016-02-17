@@ -40,7 +40,7 @@
 <!--lang-->
 <script src="${base}/resources/admin/scripts/admin-common.js" type="text/javascript"></script>
 <!-- tasks -->
-<script src="${base}/resources/admin/scripts/system/adminusersign.js" type="text/javascript"></script>
+<script src="${base}/resources/admin/scripts/system/adminshowusersign.js" type="text/javascript"></script>
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-sidebar-closed-hide-logo">
 <!-- BEGIN PAGE CONTENT INNER -->
@@ -91,34 +91,45 @@
 				</a>
 			</div>
 			<div class="col-md-12">
-				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_adminusersign_tb" data-singleselect="true",   data-loadUrl="${base}/adminuserSign/list.json" data-checkbox="true" data-pageSize="10">
+				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_adminshowuserSign_tb" data-singleselect="true",   data-loadUrl="${base}/adminshowuserSign/list.json" data-checkbox="true" data-pageSize="10">
 					<thead>
 						<tr>
 							<th class="table-checkbox" data-field='id' data-checkbox="true">
-						 		<input type="checkbox" class="group-checkable" data-set="#sys_adminusersign_tb.checkboxes"  data-sortable="false" />
+						 		<input type="checkbox" class="group-checkable" data-set="#sys_adminshowuserSign_tb.checkboxes"  data-sortable="false" />
 						 	</th>
-						 	<th data-field="areaType" style="width:50px;">
+							<th data-field="areaType" style="width:50px;">
 							 	所属教育署
 							</th>
 							<th data-field="schoolName" style="width:50px;">
 							 	学校名称
 							</th>
-							<th data-field='studentName' data-sortDir="asc" style="width:30px;">
-								<@spring.message "sys.usersign.html.studentname"/>
-							</th>
-							<th data-field="showName" style="width:100px;">
+							<th data-field="category.categoryName" style="width:50px;">
+							 	展演活动项目
+							</th>							
+							<th data-field="showName" style="width:50px;">
 							 	<@spring.message "sys.usersign.html.showname"/>
 							</th>
-							<th data-field="category.categoryName" style="width:20px;">
-							 	<@spring.message "sys.usersign.html.category"/>
+							<th data-field="studentName" style="width:50px;">
+							 	节目人数
 							</th>
-							<th data-field="groupType" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.group"/>
+							<th data-field="gradeName" style="width:50px;">
+							 	节目时长
+							</th>
+							<th data-field="tutor" style="width:50px;">
+							 	指导老师1
+							</th>
+							<th data-field="mobile" style="width:60px;">
+							 	指导老师1手机号
+							</th>
+							<th data-field="tutor2" style="width:50px;">
+							 	指导老师2
+							</th>
+							<th data-field="className" style="width:50px;">
+							 	指导老师3
 							</th>
 							<th data-field="status" style="width:50px;" data-formatter="formatterEidtable">
 							 	<@spring.message "sys.usersign.html.status" />
 							</th>
-							
 						</tr>
 					</thead>
 				</table>

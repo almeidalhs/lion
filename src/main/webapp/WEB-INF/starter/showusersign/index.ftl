@@ -39,7 +39,7 @@
 <!--lang-->
 <script src="${base}/resources/admin/scripts/admin-common.js" type="text/javascript"></script>
 <!-- tasks -->
-<script src="${base}/resources/admin/scripts/system/usersign.js" type="text/javascript"></script>
+<script src="${base}/resources/admin/scripts/system/showusersign.js" type="text/javascript"></script>
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-sidebar-closed-hide-logo">
 <!-- BEGIN PAGE CONTENT INNER -->
@@ -48,21 +48,12 @@
 		<div class="row">
 			<div class="col-md-12 margin-bottom-10">
 				<form id="queryform" class="form-horizontal">
-					<!--
+					
 					<label class="control-label col-md-2" for="nameZh" >
-						<@spring.message "sys.usersign.html.category"/>
+						艺术节展演活动节目名称
 					</label>
 					<div class="col-md-2">
-						<input  id="category"  name="category"  
-						 	placeholder="请选择比赛项目…"  type="text" 
-						 	class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>					
-					</div>
-					-->
-					<label class="control-label col-md-2" for="nameZh" >
-						<@spring.message "sys.usersign.html.studentname"/>
-					</label>
-					<div class="col-md-2">
-						<input class="form-control input-small" type="text" size="30" name="studentName" id="studentName"  placeholder="<@spring.message "sys.usersign.html.tip.studentname"/>"  />					
+						<input class="form-control input-small" type="text" size="50" name="showName" id="studentName"  placeholder="请输入艺术节展演活动节目名称"  />					
 					</div>
 					
 					<div class="col-md-2">
@@ -97,29 +88,35 @@
 				</a>
 			</div>
 			<div class="col-md-12">
-				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_usersign_tb" data-singleselect="true",   data-loadUrl="${base}/userSign/list.json" data-checkbox="true" data-pageSize="10">
+				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_showusersign_tb" data-singleselect="true",   data-loadUrl="${base}/showUserSign/list.json" data-checkbox="true" data-pageSize="10">
 					<thead>
 						<tr>
 							<th class="table-checkbox" data-field='id' data-checkbox="true">
-						 		<input type="checkbox" class="group-checkable" data-set="#sys_usersign_tb.checkboxes"  data-sortable="false" />
-						 	</th>
-							<th data-field='studentName' data-sortDir="asc" style="width:70px;">
-								<@spring.message "sys.usersign.html.studentname"/>
-							</th>
+						 		<input type="checkbox" class="group-checkable" data-set="#sys_showusersign_tb.checkboxes"  data-sortable="false" />
+						 	</th>	
+						 	<th data-field="category.categoryName" style="width:50px;">
+							 	艺术节展演活动项目
+							</th>			
 							<th data-field="showName" style="width:50px;">
 							 	<@spring.message "sys.usersign.html.showname"/>
-							</th>
-							<th data-field="category.categoryName" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.category"/>
-							</th>
-							<th data-field="groupType" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.group"/>
+							</th>							
+							<th data-field="studentName" style="width:50px;">
+							 	节目人数
 							</th>
 							<th data-field="gradeName" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.grade"/>
+							 	节目时长
 							</th>
-							<th data-field="status" style="width:50px;" data-formatter="formatterEidtable">
-							 	<@spring.message "sys.usersign.html.status" />
+							<th data-field="tutor" style="width:50px;">
+							 	指导老师1
+							</th>
+							<th data-field="mobile" style="width:50px;">
+							 	指导老师1手机号
+							</th>
+							<th data-field="tutor2" style="width:50px;">
+							 	指导老师2
+							</th>
+							<th data-field="className" style="width:50px;">
+							 	指导老师3
 							</th>
 						</tr>
 					</thead>
@@ -139,67 +136,30 @@
 				<h4 class="modal-title">
 					<i class="fa fa-plus"></i> 
 					<span>
-						<@spring.message "sys.usersign.form.adddialog.text"/>
+						艺术节展演活动报名
 					</span>
 				</h4>
 			</div>
+			
 			<div class="modal-body">
 				 	<div class="row">
 				 	<div class="col-md-12 portlet-body form">
 				 		<!-- BEGIN FORM-->
 										<form action="#" class="form-horizontal" name="sysCodeTypeForm" id="sysCodeTypeForm" method="post">
 											<input type="hidden" id='id' name='id' value="">
-											<div class="form-body">
+											<div class="form-body">												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.category"/>
-													</label>
-													<div class="col-md-5">
-															 <input  id="categoryId"  name="categoryId"  
-						 	  	  								placeholder="请选择单项比赛项目…"  type="text" 
-						 		  								class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>										 
-													</div>
-												</div>
-												
-											
-												<div class="form-group">
-													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.studentname"/>
+														艺术节展演项目
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
-															<input type="text"  id="studentName" name="studentName" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.studentname"/>" size="30"/>
+															<input  id="categoryId"  name="categoryId"  
+								 	placeholder="请选择艺术节展演项目…"  type="text" 
+								 	class="lion-combotree form-control"   data-loadURL="${base}/showcategory/comboxtree.json" data-width="225px" data-height="300px"/>					
 														</div>
 													</div>
 												</div>
-												
-												<div class="form-group">
-													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.group"/>
-													</label>
-													<div class="col-md-5">
-														 <select  id="groupType" name="groupType"  placeholder="请选择组别.."  
-														 	class="lion-combo form-control select2" data-valueField='codeValue' 
-														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=group">
-														 </select>
-													</div>
-													
-												</div>
-							
-												
-												<div class="form-group">
-													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.grade"/>
-													</label>
-													<div class="col-md-5">
-														 <select  id="gradeName" name="gradeName"  placeholder="请选择年级.."  
-														 	class="lion-combo form-control select2" data-valueField='codeValue' 
-														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=grade">
-														 </select>
-													</div>
-												</div>
-															
-												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
 														<@spring.message "sys.usersign.html.showname"/>
@@ -210,33 +170,86 @@
 														</div>
 													</div>
 												</div>
-												
-												
-												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.tutor"/>
+													 组别
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
-															<input type="text"  id="tutor" name="tutor" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.tutor"/>" size="30"/>
+															 <select  id="groupType" name="groupType"  placeholder="请选择展演组别.."  
+														 	class="lion-combo form-control select2" data-valueField='codeValue' 
+														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=zygroup">
+														 </select>
 														</div>
 													</div>
 												</div>
 												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.tutor2"/>
+													 节目人数
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
-															<input type="text"  id="tutor2" name="tutor2" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.tutor2"/>" size="30"/>
+															<input type="text"  id="studentName" name="studentName" maxlength="100" class="form-control" placeholder="请输入表演节目人数" size="30"/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														节目时长
+													</label>
+													<div class="col-md-5">
+														<div nowrap><p>
+																
+															<input type="text"  id="minute" name="minute" size="5"/>&nbsp;分
+															<input type="text"  id="second" name="second" size="5"/>&nbsp;秒
+															    
+															</p>
 														</div>
 													</div>
 												</div>
 												
-					
-													
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														指导老师1
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="tutor" name="tutor" maxlength="100" class="form-control" placeholder="指导老师1姓名" size="30"/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														指导老师1手机号
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="mobile" name="mobile" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.mobile"/>" size="30"/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														指导老师2
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="tutor2" name="tutor2" maxlength="100" class="form-control" placeholder="指导老师2姓名" size="30"/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														指导老师3
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="className" name="className" maxlength="100" class="form-control" placeholder="指导老师3姓名" size="30"/>
+														</div>
+													</div>
+												</div>
+																							
 											</div>
 										</form>
 								<!-- END FORM-->

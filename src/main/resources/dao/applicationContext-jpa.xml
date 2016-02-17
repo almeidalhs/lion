@@ -20,6 +20,7 @@
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="persistenceProvider" ref="persistenceProvider" />
+		<property name="persistenceUnitName" value="entityUnit"/>
 		<!-- <property name="persistenceXmlLocation" value="classpath:META-INF/persistence-mysql.xml"></property>--> 
 		<property name="mappingResources">
 			<list>
@@ -32,7 +33,10 @@
 				<value>model/system/bas_tasks.${database.prefix}.orm.xml</value>
 				<value>model/bas_policy.${database.prefix}.orm.xml</value>
 				<value>model/bas_imscategory.${database.prefix}.orm.xml</value>
+				<value>model/bas_showcategory.${database.prefix}.orm.xml</value>
 				<value>model/bas_imsusersign.${database.prefix}.orm.xml</value>
+				<value>model/bas_showusersign.${database.prefix}.orm.xml</value>
+				<value>model/bas_imswinner.${database.prefix}.orm.xml</value>
 				<value>model/bas_treegrid.${database.prefix}.orm.xml</value>
 				<value>model/system/bas_reminder.${database.prefix}.orm.xml</value>
 			</list>

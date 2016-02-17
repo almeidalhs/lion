@@ -39,29 +39,30 @@ import com.newtouch.lion.web.model.QueryDt;
 import com.newtouch.lion.web.servlet.view.support.BindMessage;
 import com.newtouch.lion.web.servlet.view.support.BindResult;
 import com.newtouch.lion.web.shiro.session.LoginSecurityUtil;
-import com.newtouch.starter.service.UserSignService;
-import com.newtouch.starter.usersign.UserSign;
-import com.newtouch.starter.usersign.UserSignVo;
+import com.newtouch.starter.service.ShowUserSignService;
+import com.newtouch.starter.showusersign.ShowUserSign;
+import com.newtouch.starter.showusersign.ShowUserSignVo;
+
 
 
 @Controller
-@RequestMapping("/userSign/")
-public class UserSignController  extends AbstractController{
+@RequestMapping("/showUserSign/")
+public class ShowUserSignController  extends AbstractController{
 	private final Logger logger = LoggerFactory.getLogger(super.getClass());
 	/** 参数首页 */
-	private static final String INDEX_RETURN = "/userSign/index";
-	private static final String STEP1_RETURN = "/userSign/step1";
-	private static final String STEP2_RETURN = "/userSign/step2";
-	private static final String LAW_RETURN = "/userSign/lawindex";
+	private static final String INDEX_RETURN = "/showUserSign/index";
+	private static final String STEP1_RETURN = "/showUserSign/step1";
+	private static final String STEP2_RETURN = "/showUserSign/step2";
+	private static final String LAW_RETURN = "/showUserSign/lawindex";
 	
 	/** 默认排序字段名称 */
 	private static final String DEFAULT_ORDER_FILED_NAME = "id";
 	
 	@SuppressWarnings("unused")
-	private static final String INDEX_LISTS_TB = "sys_userSign_lists";	 
+	private static final String INDEX_LISTS_TB = "sys_showuserSign_lists";	 
 	/**部门扩展*/
 	@Autowired
-	private UserSignService  userSignService;
+	private ShowUserSignService  userSignService;
 	
 	@Autowired
 	private UserService  userService;
@@ -75,13 +76,13 @@ public class UserSignController  extends AbstractController{
 	@RequestMapping(value = "add")
 	@ResponseBody
 	public ModelAndView add(
-			@Valid @ModelAttribute("userSignVo") UserSignVo userSignVo,
+			@Valid @ModelAttribute("userSignVo") ShowUserSignVo userSignVo,
 			Errors errors, ModelAndView modelAndView) {
 		if (errors.hasErrors()) {
 			modelAndView.addObject(BindMessage.ERRORS_MODEL_KEY, errors);
 			return this.getJsonView(modelAndView);
 		}
-		UserSign userSign = new UserSign();
+		ShowUserSign userSign = new ShowUserSign();
 		
 		//Subject currentUser=SecurityUtils.getSubject();
 		UserInfo userInfo = LoginSecurityUtil.getUser();
@@ -90,7 +91,11 @@ public class UserSignController  extends AbstractController{
 		//User user = userService.doFindById(userInfo.getId());
 		userSignVo.setSchUserId(userInfo.getId());
 		userSignVo.setSchoolName(userInfo.getRealnameZh());
+		
 		BeanUtils.copyProperties(userSignVo, userSign);
+		
+		String gradeName = userSignVo.getMinute()+"分"+userSignVo.getSecond()+"秒";
+		userSign.setGradeName(gradeName);
 		this.userSignService.doCreate(userSign);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(BindResult.SUCCESS, ConstantMessage.ADD_SUCCESS_MESSAGE_CODE);
@@ -101,9 +106,9 @@ public class UserSignController  extends AbstractController{
 	@RequestMapping(value = "edit")
 	@ResponseBody
 	public ModelAndView edit(
-			@Valid @ModelAttribute("userSignVo") UserSignVo userSignVo,
+			@Valid @ModelAttribute("userSignVo") ShowUserSignVo userSignVo,
 			Errors errors, ModelAndView modelAndView) {
-		UserSign userSign = null;
+		ShowUserSign userSign = null;
 		if (userSignVo.getId() != null) {
 			userSign = this.userSignService
 					.doFindById(userSignVo.getId());
@@ -121,8 +126,28 @@ public class UserSignController  extends AbstractController{
 		UserInfo userInfo = LoginSecurityUtil.getUser();
 		//User user = userService.doFindById(userInfo.getId());
 	
-		BeanUtils.copyProperties(userSignVo, userSign);
+		//BeanUtils.copyProperties(userSignVo, userSign);
+		userSign.setGradeName(userSignVo.getMinute()+"分"+userSignVo.getSecond()+"秒");
 		userSign.setSchUserId(userInfo.getId());
+		
+		/*userSign.setAreaType(userSignVo.getAreaType());
+		userSign.setCategoryId(userSignVo.getCategoryId());
+		userSign.setClassName(userSignVo.getClassName());
+		userSign.setEmail(userSignVo.getEmail());
+		userSign.setExamUserId(userSignVo.getExamUserId());
+		userSign.setExamUserName(userSignVo.getExamUserName());
+		userSign.setGroupType(userSignVo.getGroupType());
+		userSign.setId(userSignVo.getId());
+		userSign.setMobile(userSignVo.getMobile());
+		userSign.setSchoolName(userSignVo.getSchoolName());
+		userSign.setSex(userSignVo.getSex());
+		userSign.setShowName(userSignVo.getShowName());
+		userSign.setSignType(userSignVo.getSignType());
+		userSign.setStatus(userSignVo.getStatus());
+		userSign.setStudentName(userSignVo.getStudentName());
+		userSign.setTutor(userSignVo.getTutor());
+		userSign.setTutor2(userSignVo.getTutor2());*/
+		
 		this.userSignService.doUpdate(userSign);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(BindResult.SUCCESS,
@@ -150,7 +175,7 @@ public class UserSignController  extends AbstractController{
 	
 	@RequestMapping("list")
 	@ResponseBody
-	public  DataTable<UserSign> list(QueryDt query,@ModelAttribute("userSign") UserSignVo userSignVo) {			
+	public  DataTable<ShowUserSign> list(QueryDt query,@ModelAttribute("userSign") ShowUserSignVo userSignVo) {			
 		QueryCriteria queryCriteria = new QueryCriteria();
 		// 设置分页 启始页
 		queryCriteria.setStartIndex(query.getPage());
@@ -174,7 +199,7 @@ public class UserSignController  extends AbstractController{
 		}
 		UserInfo userInfo = LoginSecurityUtil.getUser();
 		queryCriteria.addQueryCondition("schUserId", userInfo.getId());
-		PageResult<UserSign> pageResult = userSignService.doFindByCriteria(queryCriteria);
+		PageResult<ShowUserSign> pageResult = userSignService.doFindByCriteria(queryCriteria);
 		return pageResult.getDataTable(query.getRequestId());
 	}
 	/****
@@ -186,7 +211,7 @@ public class UserSignController  extends AbstractController{
 	 */
 	@RequestMapping(value = "export")
 	@ResponseBody
-	public ModelAndView exportExcel(@RequestParam(required=false) String tableId,@RequestParam(required = false) String sort,@RequestParam(required = false) String order,@ModelAttribute("userSign") UserSignVo userSignVo,ModelAndView modelAndView){
+	public ModelAndView exportExcel(@RequestParam(required=false) String tableId,@RequestParam(required = false) String sort,@RequestParam(required = false) String order,@ModelAttribute("userSign") ShowUserSignVo userSignVo,ModelAndView modelAndView){
 				
 		DataGrid dataGrid=dataGridService.doFindByTableIdAndSort(tableId);
 		QueryCriteria queryCriteria=new QueryCriteria();
@@ -204,7 +229,7 @@ public class UserSignController  extends AbstractController{
 			queryCriteria.addQueryCondition("studentName","%"+userSignVo.getStudentName()+"%");
 		}
 		//查询保单
-		PageResult<UserSign> result=userSignService.doFindByCriteria(queryCriteria);
+		PageResult<ShowUserSign> result=userSignService.doFindByCriteria(queryCriteria);
 		
 		Map<String, Map<Object, Object>> fieldCodeTypes = new HashMap<String, Map<Object, Object>>();
 
@@ -232,6 +257,11 @@ public class UserSignController  extends AbstractController{
 	
 	@RequestMapping(value = "index")
 	public String index(HttpServletRequest servletRequest, Model model) {
+		String category = servletRequest.getParameter("category");
+		
+		
+		//model.addAttribute("category1", category);
+
 		return INDEX_RETURN;
 	}
 	

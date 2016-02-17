@@ -69,13 +69,16 @@
 												<a href="#tab_1_1" data-toggle="tab">基本信息</a>
 											</li>
 											<li>
-												<a href="#tab_1_2" data-toggle="tab">修改头像</a>
+												<a href="#tab_1_2" data-toggle="tab">修改基本信息</a>
 											</li>
 											<li>
-												<a href="#tab_1_3" data-toggle="tab">修改密码</a>
+												<a href="#tab_1_3" data-toggle="tab">修改头像</a>
 											</li>
 											<li>
-												<a href="#tab_1_4" data-toggle="tab">设置</a>
+												<a href="#tab_1_4" data-toggle="tab">修改密码</a>
+											</li>
+											<li>
+												<a href="#tab_1_5" data-toggle="tab">设置</a>
 											</li>
 										</ul>
 									</div>
@@ -83,53 +86,61 @@
 										<div class="tab-content">
 											<!-- PERSONAL INFO TAB -->
 											<div class="tab-pane active" id="tab_1_1">
+												<form class="form-horizontal" id="formuser1">
+													<div class="form-group">
+														<label class="control-label  col-md-3">所属教育署</label>
+														<label class="control-label  col-md-1">
+															${user.department.nameZh!}
+														</label>
+													
+													</div>
+													
+													<div class="form-group">
+														<label class="control-label col-md-3">学校中文名全称</label>
+														<label class="control-label  col-md-1">
+															${user.realnameZh!}
+														</label>
+													</div>
+													<div class="form-group">
+														<label class="control-label col-md-3">学校地址</label>
+														<label class="control-label  col-md-1">
+															${user.location!}
+														</label>
+													</div>
+													<div class="form-group">
+														<label class="control-label col-md-3">艺术辅导员姓名</label>
+														<label class="control-label  col-md-1">
+															${user.description!}
+														</label>
+													</div>													
+													<div class="form-group">
+														<label class="control-label col-md-3">艺术辅导员手机</label>
+														<label class="control-label  col-md-1">
+															${user.mobile!}
+														</label>
+													</div>		
+												</form>
+											</div>
+											<!-- END PERSONAL INFO TAB -->
+											<div class="tab-pane" id="tab_1_2">
 												<form  action="#" class="form-horizontal" id="formuser">
 													<div class="form-group">
-														<label class="control-label col-md-3">学校中文全称</label>
+														<label class="control-label  col-md-3">所属教育署</label>
+														<div class="col-md-8 input-group">
+															<input type="text" class="form-control input-medium" name="departmentId" value="${user.department.nameZh!}" maxlength="128" size="30"/>
+														</div>
+													</div>
+													
+													<div class="form-group">
+														<label class="control-label col-md-3">学校中文名全称</label>
 														<div class="col-md-8 input-group">
 															<input type="text" class="form-control input-medium"  name="realnameZh" value="${user.realnameZh!}"  maxlength="128" size="30"/>
 														</div>
 													</div>
 													<div class="form-group">
-														<label class="control-label  col-md-3">学校英文全称</label>
+														<label class="control-label col-md-3">学校地址</label>
 														<div class="col-md-8 input-group">
-															<input type="text" class="form-control input-medium" name="realnameEn" value="${user.realnameEn!}" maxlength="128" size="30"/>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="control-label col-md-3">学校管理员姓名</label>
-														<div class="col-md-8 input-group">
-															<input type="text"  class="form-control input-medium" name="location" value="${user.location!}" maxlength="256" size="30"/>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="control-label col-md-3">校内职务</label>
-														<div class="col-md-8 input-group">
-															<input type="text"  class="form-control input-medium" name="description"  value="${user.description!}"  maxlength="256" size="30"/>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="control-label col-md-3">手机号</label>
-														<div class="col-md-8 input-group">
-															<input type="text"  class="form-control input-medium" name="mobile" value="${user.mobile!}"  maxlength="30" size="30"/>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="control-label col-md-3">联系电话</label>
-														<div class="col-md-8 input-group">
-															<input type="text"   class="form-control input-medium" name="telephone" value="${user.telephone!}" maxlength="30" size="30"/>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="control-label col-md-3">办公室电话</label>
-														<div class="col-md-8 input-group">
-															<input type="text"   class="form-control input-medium" name="officePhone" value="${user.officePhone!}" maxlength="30" size="30"/>
-														</div>
-													</div>
-													<div class="form-group">
-														<label class="control-label col-md-3">传真</label>
-														<div class="col-md-8 input-group">
-															<input type="text" class="form-control input-medium" name="fax" value="${user.fax!}" maxlength="30" size="30"/>
+															<input type="text"  class="form-control input-medium" name="location" value="${user.location!}" maxlength="256" size="50"/>
 														</div>
 													</div>
 													<div class="form-group">
@@ -138,6 +149,31 @@
 															<input type="text"  class="form-control input-medium" name="postcode" value="${user.postcode!}" maxlength="6" size="6"/>
 														</div>
 													</div>
+													
+													<div class="form-group">
+														<label class="control-label col-md-3">艺术辅导员姓名</label>
+														<div class="col-md-8 input-group">
+															<input type="text"  class="form-control input-medium" name="description" value="${user.description!}" maxlength="256" size="30"/>
+														</div>
+													</div>													
+													<div class="form-group">
+														<label class="control-label col-md-3">艺术辅导员手机</label>
+														<div class="col-md-8 input-group">
+															<input type="text"  class="form-control input-medium" name="mobile" value="${user.mobile!}"  maxlength="30" size="30"/>
+														</div>
+													</div>		
+													<div class="form-group">
+														<label class="control-label col-md-3">艺术辅导员邮箱</label>
+														<div class="col-md-8 input-group">
+															<input type="text"  class="form-control input-medium" name="email" value="${user.email!}"  maxlength="30" size="30"/>
+														</div>
+													</div>												
+													<div class="form-group">
+														<label class="control-label col-md-3">艺术辅导员办公室电话</label>
+														<div class="col-md-8 input-group">
+															<input type="text"   class="form-control input-medium" name="officePhone" value="${user.officePhone!}" maxlength="30" size="30"/>
+														</div>
+													</div>													
 													
 													<div class=" form-group">
 															<label class="col-md-3 control-label"></label>
@@ -154,7 +190,7 @@
 											</div>
 											<!-- END PERSONAL INFO TAB -->
 											<!-- CHANGE AVATAR TAB -->
-											<div class="tab-pane" id="tab_1_2">
+											<div class="tab-pane" id="tab_1_3">
 												<form id="formImg" enctype="multipart/form-data" action="#" >
 													<div class="form-group">
 														<div class="fileinput fileinput-new" >
@@ -180,7 +216,7 @@
 											</div>
 											<!-- END CHANGE AVATAR TAB -->
 											<!-- CHANGE PASSWORD TAB -->
-											<div class="tab-pane" id="tab_1_3">	
+											<div class="tab-pane" id="tab_1_4">	
 												<form action="#"  id="formpassword" class="form-horizontal">
 													<div class="form-group">
 														<label class="control-label  col-md-3">旧密码</label>
@@ -218,7 +254,7 @@
 											</div>
 											<!-- END CHANGE PASSWORD TAB -->
 											<!-- PRIVACY SETTINGS TAB -->
-											<div class="tab-pane" id="tab_1_4">												 
+											<div class="tab-pane" id="tab_1_5">												 
 													<form action="#"  class="form-horizontal">
 														 <div class=" form-group">
 															<label class="col-md-3 control-label"></label>

@@ -39,29 +39,26 @@ import com.newtouch.lion.web.model.QueryDt;
 import com.newtouch.lion.web.servlet.view.support.BindMessage;
 import com.newtouch.lion.web.servlet.view.support.BindResult;
 import com.newtouch.lion.web.shiro.session.LoginSecurityUtil;
-import com.newtouch.starter.service.UserSignService;
-import com.newtouch.starter.usersign.UserSign;
-import com.newtouch.starter.usersign.UserSignVo;
+import com.newtouch.starter.service.ShowUserSignService;
+import com.newtouch.starter.showusersign.ShowUserSign;
+import com.newtouch.starter.showusersign.ShowUserSignVo;
 
 
 @Controller
-@RequestMapping("/userSign/")
-public class UserSignController  extends AbstractController{
+@RequestMapping("/adminshowuserSign/")
+public class AdminShowUserSignController  extends AbstractController{
 	private final Logger logger = LoggerFactory.getLogger(super.getClass());
 	/** 参数首页 */
-	private static final String INDEX_RETURN = "/userSign/index";
-	private static final String STEP1_RETURN = "/userSign/step1";
-	private static final String STEP2_RETURN = "/userSign/step2";
-	private static final String LAW_RETURN = "/userSign/lawindex";
+	private static final String INDEX_RETURN = "/adminshowuserSign/index";
 	
 	/** 默认排序字段名称 */
 	private static final String DEFAULT_ORDER_FILED_NAME = "id";
 	
 	@SuppressWarnings("unused")
-	private static final String INDEX_LISTS_TB = "sys_userSign_lists";	 
+	private static final String INDEX_LISTS_TB = "sys_adminshowuserSign_lists";	 
 	/**部门扩展*/
 	@Autowired
-	private UserSignService  userSignService;
+	private ShowUserSignService  userSignService;
 	
 	@Autowired
 	private UserService  userService;
@@ -72,38 +69,14 @@ public class UserSignController  extends AbstractController{
 	@Autowired
 	private DataGridService dataGridService;
 
-	@RequestMapping(value = "add")
-	@ResponseBody
-	public ModelAndView add(
-			@Valid @ModelAttribute("userSignVo") UserSignVo userSignVo,
-			Errors errors, ModelAndView modelAndView) {
-		if (errors.hasErrors()) {
-			modelAndView.addObject(BindMessage.ERRORS_MODEL_KEY, errors);
-			return this.getJsonView(modelAndView);
-		}
-		UserSign userSign = new UserSign();
-		
-		//Subject currentUser=SecurityUtils.getSubject();
-		UserInfo userInfo = LoginSecurityUtil.getUser();
-		User user = userService.doFindById(userInfo.getId());
-		userSignVo.setAreaType(user.getDepartment().getNameZh());
-		//User user = userService.doFindById(userInfo.getId());
-		userSignVo.setSchUserId(userInfo.getId());
-		userSignVo.setSchoolName(userInfo.getRealnameZh());
-		BeanUtils.copyProperties(userSignVo, userSign);
-		this.userSignService.doCreate(userSign);
-		Map<String, String> params = new HashMap<String, String>();
-		params.put(BindResult.SUCCESS, ConstantMessage.ADD_SUCCESS_MESSAGE_CODE);
-		modelAndView.addObject(BindMessage.SUCCESS, params);
-		return this.getJsonView(modelAndView);
-	}
+	
 
-	@RequestMapping(value = "edit")
+	@RequestMapping(value = "pass")
 	@ResponseBody
-	public ModelAndView edit(
-			@Valid @ModelAttribute("userSignVo") UserSignVo userSignVo,
+	public ModelAndView pass(
+			@Valid @ModelAttribute("userSignVo") ShowUserSignVo userSignVo,
 			Errors errors, ModelAndView modelAndView) {
-		UserSign userSign = null;
+		ShowUserSign userSign = null;
 		if (userSignVo.getId() != null) {
 			userSign = this.userSignService
 					.doFindById(userSignVo.getId());
@@ -118,11 +91,9 @@ public class UserSignController  extends AbstractController{
 			modelAndView.addObject(BindMessage.ERRORS_MODEL_KEY, errors);
 			return this.getJsonView(modelAndView);
 		}
-		UserInfo userInfo = LoginSecurityUtil.getUser();
 		//User user = userService.doFindById(userInfo.getId());
-	
-		BeanUtils.copyProperties(userSignVo, userSign);
-		userSign.setSchUserId(userInfo.getId());
+//		BeanUtils.copyProperties(userSignVo, userSign);
+		userSign.setStatus(1);
 		this.userSignService.doUpdate(userSign);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(BindResult.SUCCESS,
@@ -131,26 +102,40 @@ public class UserSignController  extends AbstractController{
 		return this.getJsonView(modelAndView);
 	}
 
-	@RequestMapping(value = "delete")
+	@RequestMapping(value = "deny")
 	@ResponseBody
-	public ModelAndView delete(@RequestParam Long id, ModelAndView modelAndView) {
-		logger.info("delete id:{}",id);
-		Map<String, String> params = new HashMap<String, String>();
-		int userSign = this.userSignService.doDeleteById(id);
-		if (userSign != 0) {
-			params.put(BindResult.SUCCESS,
-					ConstantMessage.DELETE_SUCCESS_MESSAGE_CODE);
+	public ModelAndView deny(
+			@Valid @ModelAttribute("userSignVo") ShowUserSignVo userSignVo,
+			Errors errors, ModelAndView modelAndView) {
+		ShowUserSign userSign = null;
+		if (userSignVo.getId() != null) {
+			userSign = this.userSignService
+					.doFindById(userSignVo.getId());
+			if (userSign == null) {
+				errors.reject(ConstantMessage.EDIT_ISEMPTY_FAIL_MESSAGE_CODE);
+			}
 		} else {
-			params.put(BindResult.SUCCESS,
-					ConstantMessage.DELETE_FAIL_MESSAGE_CODE);
+			errors.reject(ConstantMessage.EDIT_ISEMPTY_FAIL_MESSAGE_CODE);
 		}
+
+		if (errors.hasErrors()) {
+			modelAndView.addObject(BindMessage.ERRORS_MODEL_KEY, errors);
+			return this.getJsonView(modelAndView);
+		}
+		//User user = userService.doFindById(userInfo.getId());
+		BeanUtils.copyProperties(userSignVo, userSign);
+		userSign.setStatus(2);
+		this.userSignService.doUpdate(userSign);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(BindResult.SUCCESS,
+				ConstantMessage.EDIT_SUCCESS_MESSAGE_CODE);
 		modelAndView.addObject(BindMessage.SUCCESS, params);
 		return this.getJsonView(modelAndView);
 	}
 	
 	@RequestMapping("list")
 	@ResponseBody
-	public  DataTable<UserSign> list(QueryDt query,@ModelAttribute("userSign") UserSignVo userSignVo) {			
+	public  DataTable<ShowUserSign> list(QueryDt query,@ModelAttribute("userSign") ShowUserSignVo userSignVo) {			
 		QueryCriteria queryCriteria = new QueryCriteria();
 		// 设置分页 启始页
 		queryCriteria.setStartIndex(query.getPage());
@@ -169,12 +154,10 @@ public class UserSignController  extends AbstractController{
 		if(StringUtils.isNotEmpty(userSignVo.getStudentName())){
 			queryCriteria.addQueryCondition("studentName","%"+userSignVo.getStudentName()+"%");
 		}
-		if(userSignVo.getCategoryId()!=null){
-			queryCriteria.addQueryCondition("categoryId","%"+userSignVo.getCategoryId()+"%");
-		}
-		UserInfo userInfo = LoginSecurityUtil.getUser();
-		queryCriteria.addQueryCondition("schUserId", userInfo.getId());
-		PageResult<UserSign> pageResult = userSignService.doFindByCriteria(queryCriteria);
+
+		/*UserInfo userInfo = LoginSecurityUtil.getUser();
+		queryCriteria.addQueryCondition("schUserId", userInfo.getId());*/
+		PageResult<ShowUserSign> pageResult = userSignService.doFindByCriteriaAdmin(queryCriteria);
 		return pageResult.getDataTable(query.getRequestId());
 	}
 	/****
@@ -186,7 +169,7 @@ public class UserSignController  extends AbstractController{
 	 */
 	@RequestMapping(value = "export")
 	@ResponseBody
-	public ModelAndView exportExcel(@RequestParam(required=false) String tableId,@RequestParam(required = false) String sort,@RequestParam(required = false) String order,@ModelAttribute("userSign") UserSignVo userSignVo,ModelAndView modelAndView){
+	public ModelAndView exportExcel(@RequestParam(required=false) String tableId,@RequestParam(required = false) String sort,@RequestParam(required = false) String order,@ModelAttribute("userSign") ShowUserSignVo userSignVo,ModelAndView modelAndView){
 				
 		DataGrid dataGrid=dataGridService.doFindByTableIdAndSort(tableId);
 		QueryCriteria queryCriteria=new QueryCriteria();
@@ -204,7 +187,7 @@ public class UserSignController  extends AbstractController{
 			queryCriteria.addQueryCondition("studentName","%"+userSignVo.getStudentName()+"%");
 		}
 		//查询保单
-		PageResult<UserSign> result=userSignService.doFindByCriteria(queryCriteria);
+		PageResult<ShowUserSign> result=userSignService.doFindByCriteria(queryCriteria);
 		
 		Map<String, Map<Object, Object>> fieldCodeTypes = new HashMap<String, Map<Object, Object>>();
 
@@ -233,22 +216,5 @@ public class UserSignController  extends AbstractController{
 	@RequestMapping(value = "index")
 	public String index(HttpServletRequest servletRequest, Model model) {
 		return INDEX_RETURN;
-	}
-	
-	@RequestMapping(value = "lawindex")
-	public String lawindex(HttpServletRequest servletRequest, Model model) {
-		return LAW_RETURN;
-	}
-	
-	@RequestMapping(value = "step1")
-	public String step1(HttpServletRequest servletRequest, Model model) {
-		return STEP1_RETURN;
-	}
-	
-	@RequestMapping(value = "step2")
-	public String step2(HttpServletRequest servletRequest, Model model) {
-		String matchType = servletRequest.getParameter("matchType");
-		model.addAttribute("matchType", matchType);
-		return STEP2_RETURN;
 	}
 }

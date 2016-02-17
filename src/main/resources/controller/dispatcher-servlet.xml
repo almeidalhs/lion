@@ -89,6 +89,7 @@
 	            <value>classpath:i18n/system/tasks/taskslist</value>
 	            <value>classpath:i18n/system/policy/policy</value>
 	            <value>classpath:i18n/system/category/category</value>
+	          
 	            <value>classpath:i18n/system/usersign/usersign</value>
 	            <value>classpath:i18n/system/icon/icon</value>	
 	            <value>classpath:i18n/system/reminder/reminder</value>

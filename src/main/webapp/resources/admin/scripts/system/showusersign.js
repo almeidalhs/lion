@@ -1,10 +1,10 @@
-var icondg = $('#sys_usersign_tb'); //datagrids
+var icondg = $('#sys_showusersign_tb'); //datagrids
 var addForm = $('#sysCodeTypeForm');  //编辑或添加表单
 var addDialog = $('#basic'); //编辑或添加对话框
 $(function(){
 	//默认加载函数
 	lion.web.AppInit();
-	icondg=$("#sys_usersign_tb");
+	icondg=$("#sys_showusersign_tb");
 	addForm=$('#sysCodeTypeForm');
 	addDialog=$('#basic');
 	var queryForm=$('#queryform');
@@ -26,7 +26,7 @@ $(function(){
 	//添加
 	$('#btnAdd').click(function(){
 		addForm.reset();
-	    addDialog.find('.modal-header h4 span').text('添加单项比赛学生报名');
+	    addDialog.find('.modal-header h4 span').text('添加艺术节展演活动学生报名');
 	   // addDialog.modal('toggle');
 	});
 	 //编辑
@@ -37,8 +37,9 @@ $(function(){
 	       return;
 	    }
 	    addForm.reset();
-	    addDialog.find('.modal-header h4 span').text('编辑单项比赛学生报名');
+	    addDialog.find('.modal-header h4 span').text('编辑艺术节展演活动学生报名');
 	    addDialog.modal('toggle');
+	    alert(row);
 	    addForm.fill(row);
 	    $("#categoryId").combotree('val',row.categoryId);
     });
@@ -76,7 +77,7 @@ $(function(){
 	       addDialog.modal('toggle');
 	       icondg.datagrids('reload');
 	     },
-	     msg:'添加单项比赛学生报名未成功'
+	     msg:'添加学生报名未成功'
 	   });
 	 }
 	//编辑成功的函数
@@ -87,7 +88,7 @@ $(function(){
 	         addDialog.modal('toggle');
 	         icondg.datagrids('reload');
 	     },
-	     msg:'编辑单项比赛学生报名未成功'
+	     msg:'编辑学生报名未成功'
 	   });
 	}
 	//导出Excel
@@ -131,75 +132,59 @@ function formatterEidtable(data,type,full) {
 
 //验证表单
 handleVForm=function(vForm,submitCallBackfn){
-  var addError = $('.alert-danger', vForm);
-  var addSuccess = $('.alert-success',vForm);
-  vForm.validate({
+	var addError = $('.alert-danger', vForm);
+    var addSuccess = $('.alert-success',vForm);
+    vForm.validate({
         errorElement: 'span',
         errorClass: 'help-block help-block-error', 
         focusInvalid: false, 
         onkeyup:false,
         ignore: '', 
         messages: {
-        	studentName:{
-        		required:'请输入学生姓名',
-        		rangelength:jQuery.validator.format('学生姓名长度为{0}和{1}字符之间')
-        	},
         	showName:{
         		required:'请输入节目名称',
-        		rangelength:jQuery.validator.format('节目名称长度为{0}和{1}字符之间')
+        		rangelength:jQuery.validator.format('节目长度为{0}和{1}字符之间')
         	},
-        	mobile:{
-        		required:'请输入学生/家长手机号',
-        		rangelength:jQuery.validator.format('手机号长度为{0}和{1}字符之间')
+        	studentName:{
+	            required:'请输入节目人数',
+	            rangelength:jQuery.validator.format('节目人数长度为{0}和{1}字符之间'),
+        	},
+        	minute:{
+	            required:'请输入节目时长',
+	            rangelength:jQuery.validator.format('节目人数长度为{0}和{1}字符之间'),
+        	},
+        	second:{
+	            required:'请输入节目时长',
+	            rangelength:jQuery.validator.format('节目人数长度为{0}和{1}字符之间'),
         	},
         	tutor:{
 	            required:'请输入指导老师姓名',
 	            rangelength:jQuery.validator.format('指导老师姓名为{0}和{1}字符之间'),
-        	},
-        	
-        	insuredName:{
-	            required:'请输入学生姓名',
-	            rangelength:jQuery.validator.format('被保人姓名长度为{0}和{1}字符之间'),
-	            remote:'该学生已存在，请输入其它姓名'
         	}
         },
         rules: {
-        	studentName: {
+        	showName: {
                 required:true,
                 rangelength:[1,128]
             },
-            showName: {
-                required:true,
-                rangelength:[1,128]
+            studentName:{
+            	required: true,
+                rangelength:[1,20],
+                
             },
-            mobile: {
-                required:true,
-                rangelength:[1,11]
+            minute:{
+                required: true,
+                digits:true,
+                rangelength:[1,2],
+            },
+            second:{
+                required: true,
+                digits:true,
+                rangelength:[1,2],
             },
             tutor:{
-                required: true,
-                rangelength:[1,20],
-           },
-            insuredName:{
-              required: true,
-                rangelength:[1,128],
-                remote:{
-                    url:'checkisexitnameen.htm', //后台处理程序
-                    type: 'post',               //数据发送方式
-                    dataType: 'json',           //接受数据格式   
-                    data: {                     //要传递的数据
-                       nameEn: function() {
-                        return $('#insuredName').val();
-                       },
-                       id:function(){
-                         var id=($('#id').val());
-                         if(lion.util.isNotEmpty(id)){
-                           return id;
-                         }
-                         return '';
-                       }
-                    }
-             }
+                 required: true,
+                 rangelength:[1,20],
             }
         },
         invalidHandler: function (event, validator) {             

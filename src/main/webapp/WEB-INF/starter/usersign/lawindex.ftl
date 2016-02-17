@@ -17,7 +17,6 @@
 <link href="${base}/resources/global/css/combotree/combotree.css" rel="stylesheet" type="text/css" />
 <!-- DataTables js Start -->
 <script type="text/javascript" src="${base}/resources/global/plugins/select2/select2.min.js"></script>
-<script type="text/javascript" src="${base}/resources/global/plugins/select2/select2_locale_zh-CN.js"></script>
 <script type="text/javascript" src="${base}/resources/global/plugins/datatables/media/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="${base}/resources/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.js"></script>
 <script type="text/javascript" src="${base}/resources/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.js"></script>
@@ -40,94 +39,36 @@
 <!--lang-->
 <script src="${base}/resources/admin/scripts/admin-common.js" type="text/javascript"></script>
 <!-- tasks -->
-<script src="${base}/resources/admin/scripts/system/adminusersign.js" type="text/javascript"></script>
+<script src="${base}/resources/admin/scripts/system/usersign.js" type="text/javascript"></script>
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-sidebar-closed-hide-logo">
 <!-- BEGIN PAGE CONTENT INNER -->
 <div class="portlet light">
 	<div class="portlet-body">
-		<div class="row">
-			<div class="col-md-12 margin-bottom-10">
-				<form id="queryform" class="form-horizontal">
-					<!--
-					<label class="control-label col-md-2" for="nameZh" >
-						<@spring.message "sys.usersign.html.category"/>
-					</label>
-					<div class="col-md-2">
-						<input  id="category"  name="category"  
-						 	placeholder="请选择比赛项目…"  type="text" 
-						 	class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>					
-					</div>
-					-->
-					<label class="control-label col-md-2" for="nameZh" >
-						<@spring.message "sys.usersign.html.studentname"/>
-					</label>
-					<div class="col-md-2">
-						<input class="form-control input-small" type="text" size="30" name="studentName" id="studentName"  placeholder="<@spring.message "sys.usersign.html.tip.studentname"/>"  />					
-					</div>
-					
-					<div class="col-md-2">
-						<a href="javascript:void(0)" id="btnQuery" class="btn blue">
-							<i class="fa fa-search"></i> 
-							<@spring.message "common.query.btn.text"/> 
-						</a>
-					</div>
-				</form>
-			</div>
-		
-			<div class="col-md-12 margin-bottom-10" id="toolbar">
-				<a id="btnPass" class="btn btn-sm yellow" data-toggle="modal" href="#basic">
-					<i class="fa fa-gift"></i> 
-					<@spring.message "sys.usersign.html.status.pass"/>  
-				</a>
-				<a id="btnDeny" class="btn btn-sm red">
-					<i class="fa fa-warning"></i> 
-					<@spring.message "sys.usersign.html.status.deny"/>
-				</a>
-				
-				<a href="javascript:void(0)" id="btnExport"  class="btn btn-sm green">
-					<i class="fa  fa-file-excel-o"></i>
-					<@spring.message "common.toolbar.btn.export.text"/>
-				</a>
-			</div>
-			<div class="col-md-12">
-				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_adminusersign_tb" data-singleselect="true",   data-loadUrl="${base}/adminuserSign/list.json" data-checkbox="true" data-pageSize="10">
-					<thead>
-						<tr>
-							<th class="table-checkbox" data-field='id' data-checkbox="true">
-						 		<input type="checkbox" class="group-checkable" data-set="#sys_adminusersign_tb.checkboxes"  data-sortable="false" />
-						 	</th>
-						 	<th data-field="areaType" style="width:50px;">
-							 	所属教育署
-							</th>
-							<th data-field="schoolName" style="width:50px;">
-							 	学校名称
-							</th>
-							<th data-field='studentName' data-sortDir="asc" style="width:30px;">
-								<@spring.message "sys.usersign.html.studentname"/>
-							</th>
-							<th data-field="showName" style="width:100px;">
-							 	<@spring.message "sys.usersign.html.showname"/>
-							</th>
-							<th data-field="category.categoryName" style="width:20px;">
-							 	<@spring.message "sys.usersign.html.category"/>
-							</th>
-							<th data-field="groupType" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.group"/>
-							</th>
-							<th data-field="status" style="width:50px;" data-formatter="formatterEidtable">
-							 	<@spring.message "sys.usersign.html.status" />
-							</th>
+		 <div class="hero-unit">
+
+						<div style="clear:both;padding:20px 0 10px 5px;border-bottom:#C8C8C8 dashed 1px;" >
+							<div id="zoom" style="OVERFLOW-X:auto;overflow-y:hidden;">
+								<P class=MsoNormal style="LINE-HEIGHT: 1.5; TEXT-ALIGN: center"><SPAN style="FONT-WEIGHT: bold; FONT-SIZE: 24pt"> <b>    艺术单项比赛细则       </b></SPAN></P>
+								<p><span style="font-size:16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2016年 艺术单项比赛细则，如下。</span></p>
+								<p><span style="font-size:16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1. 浦东新区艺术单项选拔赛的获奖名单已于4月中旬在浦东新区青少年活动中心挂网公示，凡获得金奖、银奖和铜奖的学生均颁发获奖证书。。</span></p>
+								<p><span style="font-size:16px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. 为了进一步拓展学生素质教育活动的空间,搭建展示, 交流艺术才能的平台。 按照上海市科艺中心给予浦东参赛的名额数, 经研究决定, 推荐在本次新区学生艺术单项比赛中获得金奖、银奖的学生和铜奖中的部分学生参加市级学生艺术单项比赛，并安排在领奖时完成市级学生艺术单项比赛报名工作。</span></p>
+							</div>
+							<!-- <p align="right" class="marginTop30">来源：零售业务部</p> -->
+							<p align="right">2016-02-10</p>
 							
-						</tr>
-					</thead>
-				</table>
+								
+						</div>
+
+			  <p></p>
+			  <p>
+			    <a class="btn btn-primary btn-large" href="${base}/userSign/index.htm">
+			     	 我要报名
+			    </a>
+			  </p>
 			</div>
-		</div>
 	</div>
 </div>
-
 <!-- END PAGE CONTENT INNER -->
-
 </body>
 </html>

@@ -17,7 +17,6 @@
 <link href="${base}/resources/global/css/combotree/combotree.css" rel="stylesheet" type="text/css" />
 <!-- DataTables js Start -->
 <script type="text/javascript" src="${base}/resources/global/plugins/select2/select2.min.js"></script>
-<script type="text/javascript" src="${base}/resources/global/plugins/select2/select2_locale_zh-CN.js"></script>
 <script type="text/javascript" src="${base}/resources/global/plugins/datatables/media/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="${base}/resources/global/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.js"></script>
 <script type="text/javascript" src="${base}/resources/global/plugins/datatables/extensions/ColReorder/js/dataTables.colReorder.js"></script>
@@ -40,7 +39,7 @@
 <!--lang-->
 <script src="${base}/resources/admin/scripts/admin-common.js" type="text/javascript"></script>
 <!-- tasks -->
-<script src="${base}/resources/admin/scripts/system/adminusersign.js" type="text/javascript"></script>
+<script src="${base}/resources/admin/scripts/system/usersign.js" type="text/javascript"></script>
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-sidebar-closed-hide-logo">
 <!-- BEGIN PAGE CONTENT INNER -->
@@ -48,81 +47,24 @@
 	<div class="portlet-body">
 		<div class="row">
 			<div class="col-md-12 margin-bottom-10">
-				<form id="queryform" class="form-horizontal">
-					<!--
-					<label class="control-label col-md-2" for="nameZh" >
-						<@spring.message "sys.usersign.html.category"/>
+				<form id="queryform" action="${base}/userSign/index.htm" method="post" class="form-horizontal">
+					
+					<label class="control-label col-md-4" for="nameZh" >
+						艺术单项比赛--报名项目
 					</label>
-					<div class="col-md-2">
+					<div class="col-md-4">
 						<input  id="category"  name="category"  
 						 	placeholder="请选择比赛项目…"  type="text" 
 						 	class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>					
 					</div>
-					-->
-					<label class="control-label col-md-2" for="nameZh" >
-						<@spring.message "sys.usersign.html.studentname"/>
-					</label>
+								
 					<div class="col-md-2">
-						<input class="form-control input-small" type="text" size="30" name="studentName" id="studentName"  placeholder="<@spring.message "sys.usersign.html.tip.studentname"/>"  />					
-					</div>
-					
-					<div class="col-md-2">
-						<a href="javascript:void(0)" id="btnQuery" class="btn blue">
-							<i class="fa fa-search"></i> 
-							<@spring.message "common.query.btn.text"/> 
-						</a>
+						 <button type="submit" class="btn btn-default">报名</button>
+				</button>
 					</div>
 				</form>
 			</div>
-		
-			<div class="col-md-12 margin-bottom-10" id="toolbar">
-				<a id="btnPass" class="btn btn-sm yellow" data-toggle="modal" href="#basic">
-					<i class="fa fa-gift"></i> 
-					<@spring.message "sys.usersign.html.status.pass"/>  
-				</a>
-				<a id="btnDeny" class="btn btn-sm red">
-					<i class="fa fa-warning"></i> 
-					<@spring.message "sys.usersign.html.status.deny"/>
-				</a>
-				
-				<a href="javascript:void(0)" id="btnExport"  class="btn btn-sm green">
-					<i class="fa  fa-file-excel-o"></i>
-					<@spring.message "common.toolbar.btn.export.text"/>
-				</a>
-			</div>
-			<div class="col-md-12">
-				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_adminusersign_tb" data-singleselect="true",   data-loadUrl="${base}/adminuserSign/list.json" data-checkbox="true" data-pageSize="10">
-					<thead>
-						<tr>
-							<th class="table-checkbox" data-field='id' data-checkbox="true">
-						 		<input type="checkbox" class="group-checkable" data-set="#sys_adminusersign_tb.checkboxes"  data-sortable="false" />
-						 	</th>
-						 	<th data-field="areaType" style="width:50px;">
-							 	所属教育署
-							</th>
-							<th data-field="schoolName" style="width:50px;">
-							 	学校名称
-							</th>
-							<th data-field='studentName' data-sortDir="asc" style="width:30px;">
-								<@spring.message "sys.usersign.html.studentname"/>
-							</th>
-							<th data-field="showName" style="width:100px;">
-							 	<@spring.message "sys.usersign.html.showname"/>
-							</th>
-							<th data-field="category.categoryName" style="width:20px;">
-							 	<@spring.message "sys.usersign.html.category"/>
-							</th>
-							<th data-field="groupType" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.group"/>
-							</th>
-							<th data-field="status" style="width:50px;" data-formatter="formatterEidtable">
-							 	<@spring.message "sys.usersign.html.status" />
-							</th>
-							
-						</tr>
-					</thead>
-				</table>
-			</div>
+
 		</div>
 	</div>
 </div>

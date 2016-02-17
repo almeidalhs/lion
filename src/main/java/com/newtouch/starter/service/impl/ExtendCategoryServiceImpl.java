@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.newtouch.lion.page.PageResult;
-import com.newtouch.lion.query.QueryCriteria;
 import com.newtouch.lion.ztree.TreeNode;
 import com.newtouch.starter.category.Category;
 import com.newtouch.starter.service.ExtendCategoryService;

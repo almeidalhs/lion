@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
 <head>
-<title> <@spring.message "sys.usersign.html.title"/></title>
+<title>竞赛成绩管理</title>
 <link href="${base}/resources/global/plugins/ztree/css/metro.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/resources/global/plugins/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
 <link href="${base}/resources/global/plugins/bootstrap-toastr/toastr.css" rel="stylesheet" type="text/css">
@@ -39,7 +39,7 @@
 <!--lang-->
 <script src="${base}/resources/admin/scripts/admin-common.js" type="text/javascript"></script>
 <!-- tasks -->
-<script src="${base}/resources/admin/scripts/system/usersign.js" type="text/javascript"></script>
+<script src="${base}/resources/admin/scripts/system/winner.js" type="text/javascript"></script>
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-sidebar-closed-hide-logo">
 <!-- BEGIN PAGE CONTENT INNER -->
@@ -48,7 +48,6 @@
 		<div class="row">
 			<div class="col-md-12 margin-bottom-10">
 				<form id="queryform" class="form-horizontal">
-					<!--
 					<label class="control-label col-md-2" for="nameZh" >
 						<@spring.message "sys.usersign.html.category"/>
 					</label>
@@ -57,7 +56,6 @@
 						 	placeholder="请选择比赛项目…"  type="text" 
 						 	class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>					
 					</div>
-					-->
 					<label class="control-label col-md-2" for="nameZh" >
 						<@spring.message "sys.usersign.html.studentname"/>
 					</label>
@@ -97,11 +95,11 @@
 				</a>
 			</div>
 			<div class="col-md-12">
-				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_usersign_tb" data-singleselect="true",   data-loadUrl="${base}/userSign/list.json" data-checkbox="true" data-pageSize="10">
+				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_winner_tb" data-singleselect="true",   data-loadUrl="${base}/userSign/list.json" data-checkbox="true" data-pageSize="10">
 					<thead>
 						<tr>
 							<th class="table-checkbox" data-field='id' data-checkbox="true">
-						 		<input type="checkbox" class="group-checkable" data-set="#sys_usersign_tb.checkboxes"  data-sortable="false" />
+						 		<input type="checkbox" class="group-checkable" data-set="#sys_winner_tb.checkboxes"  data-sortable="false" />
 						 	</th>
 							<th data-field='studentName' data-sortDir="asc" style="width:70px;">
 								<@spring.message "sys.usersign.html.studentname"/>
@@ -112,11 +110,14 @@
 							<th data-field="category.categoryName" style="width:50px;">
 							 	<@spring.message "sys.usersign.html.category"/>
 							</th>
+							<th data-field="mobile" style="width:50px;">
+							 	<@spring.message "sys.usersign.html.mobile"/>
+							</th>
 							<th data-field="groupType" style="width:50px;">
 							 	<@spring.message "sys.usersign.html.group"/>
 							</th>
-							<th data-field="gradeName" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.grade"/>
+							<th data-field="areaType" style="width:50px;">
+							 	<@spring.message "sys.usersign.html.area"/>
 							</th>
 							<th data-field="status" style="width:50px;" data-formatter="formatterEidtable">
 							 	<@spring.message "sys.usersign.html.status" />
@@ -150,18 +151,49 @@
 										<form action="#" class="form-horizontal" name="sysCodeTypeForm" id="sysCodeTypeForm" method="post">
 											<input type="hidden" id='id' name='id' value="">
 											<div class="form-body">
+												
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														<@spring.message "sys.usersign.html.mobile"/>
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="mobile" name="mobile" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.mobile"/>" size="30"/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														<@spring.message "sys.usersign.html.email"/>
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="email" name="email" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.email"/>" size="30"/>
+														</div>
+													</div>
+												</div>
 												<div class="form-group">
 													<label class="col-md-3 control-label">
 														<@spring.message "sys.usersign.html.category"/>
 													</label>
 													<div class="col-md-5">
 															 <input  id="categoryId"  name="categoryId"  
-						 	  	  								placeholder="请选择单项比赛项目…"  type="text" 
+						 	  	  								placeholder="请选择项目…"  type="text" 
 						 		  								class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>										 
 													</div>
 												</div>
 												
-											
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														<@spring.message "sys.usersign.html.showname"/>
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="showName" name="showName" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.showname"/>" size="30"/>
+														</div>
+													</div>
+												</div>
+												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
 														<@spring.message "sys.usersign.html.studentname"/>
@@ -173,19 +205,17 @@
 													</div>
 												</div>
 												
+												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.group"/>
+														<@spring.message "sys.usersign.html.school"/>
 													</label>
 													<div class="col-md-5">
-														 <select  id="groupType" name="groupType"  placeholder="请选择组别.."  
-														 	class="lion-combo form-control select2" data-valueField='codeValue' 
-														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=group">
-														 </select>
+														<div class="input-group">
+															<input type="text"  id="schUserName" name="schUserName" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.school"/>" size="30"/>
+														</div>
 													</div>
-													
 												</div>
-							
 												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
@@ -199,18 +229,6 @@
 													</div>
 												</div>
 															
-												
-												<div class="form-group">
-													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.showname"/>
-													</label>
-													<div class="col-md-5">
-														<div class="input-group">
-															<input type="text"  id="showName" name="showName" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.showname"/>" size="30"/>
-														</div>
-													</div>
-												</div>
-												
 												
 												
 												<div class="form-group">
@@ -235,7 +253,35 @@
 													</div>
 												</div>
 												
-					
+												
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														<@spring.message "sys.usersign.html.group"/>
+													</label>
+													<div class="col-md-5">
+														 <select  id="groupType" name="groupType"  placeholder="请选择组别.."  
+														 	class="lion-combo form-control select2" data-valueField='codeValue' 
+														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=group">
+														 </select>
+													</div>
+													
+												</div>
+												
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														<@spring.message "sys.usersign.html.area"/>
+													</label>
+													<div class="col-md-5">
+														 <select  id="areaType" name="areaType"  placeholder="请选择所属教育署.."  
+														 	class="lion-combo form-control select2" data-valueField='codeValue' 
+														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=area">
+														 </select>
+													</div>
+													
+												</div>
+												
+												
+														
 													
 											</div>
 										</form>

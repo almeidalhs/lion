@@ -26,7 +26,7 @@ $(function(){
 	//添加
 	$('#btnAdd').click(function(){
 		addForm.reset();
-	    addDialog.find('.modal-header h4 span').text('添加单项比赛学生报名');
+	    addDialog.find('.modal-header h4 span').text('添加学生报名');
 	   // addDialog.modal('toggle');
 	});
 	 //编辑
@@ -37,7 +37,7 @@ $(function(){
 	       return;
 	    }
 	    addForm.reset();
-	    addDialog.find('.modal-header h4 span').text('编辑单项比赛学生报名');
+	    addDialog.find('.modal-header h4 span').text('编辑学生报名');
 	    addDialog.modal('toggle');
 	    addForm.fill(row);
 	    $("#categoryId").combotree('val',row.categoryId);
@@ -76,7 +76,7 @@ $(function(){
 	       addDialog.modal('toggle');
 	       icondg.datagrids('reload');
 	     },
-	     msg:'添加单项比赛学生报名未成功'
+	     msg:'添加学生报名未成功'
 	   });
 	 }
 	//编辑成功的函数
@@ -87,7 +87,7 @@ $(function(){
 	         addDialog.modal('toggle');
 	         icondg.datagrids('reload');
 	     },
-	     msg:'编辑单项比赛学生报名未成功'
+	     msg:'编辑学生报名未成功'
 	   });
 	}
 	//导出Excel
@@ -132,7 +132,7 @@ function formatterEidtable(data,type,full) {
 //验证表单
 handleVForm=function(vForm,submitCallBackfn){
   var addError = $('.alert-danger', vForm);
-  var addSuccess = $('.alert-success',vForm);
+    var addSuccess = $('.alert-success',vForm);
   vForm.validate({
         errorElement: 'span',
         errorClass: 'help-block help-block-error', 
@@ -140,23 +140,10 @@ handleVForm=function(vForm,submitCallBackfn){
         onkeyup:false,
         ignore: '', 
         messages: {
-        	studentName:{
-        		required:'请输入学生姓名',
-        		rangelength:jQuery.validator.format('学生姓名长度为{0}和{1}字符之间')
+        	policyType:{
+        		required:'请输入学生报名类型',
+        		rangelength:jQuery.validator.format('保单类型长度为{0}和{1}字符之间')
         	},
-        	showName:{
-        		required:'请输入节目名称',
-        		rangelength:jQuery.validator.format('节目名称长度为{0}和{1}字符之间')
-        	},
-        	mobile:{
-        		required:'请输入学生/家长手机号',
-        		rangelength:jQuery.validator.format('手机号长度为{0}和{1}字符之间')
-        	},
-        	tutor:{
-	            required:'请输入指导老师姓名',
-	            rangelength:jQuery.validator.format('指导老师姓名为{0}和{1}字符之间'),
-        	},
-        	
         	insuredName:{
 	            required:'请输入学生姓名',
 	            rangelength:jQuery.validator.format('被保人姓名长度为{0}和{1}字符之间'),
@@ -164,22 +151,10 @@ handleVForm=function(vForm,submitCallBackfn){
         	}
         },
         rules: {
-        	studentName: {
+        	policyType: {
                 required:true,
                 rangelength:[1,128]
             },
-            showName: {
-                required:true,
-                rangelength:[1,128]
-            },
-            mobile: {
-                required:true,
-                rangelength:[1,11]
-            },
-            tutor:{
-                required: true,
-                rangelength:[1,20],
-           },
             insuredName:{
               required: true,
                 rangelength:[1,128],

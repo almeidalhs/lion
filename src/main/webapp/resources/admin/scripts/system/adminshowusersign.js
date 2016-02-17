@@ -1,10 +1,10 @@
-var icondg = $('#sys_usersign_tb'); //datagrids
+var icondg = $('#sys_adminshowuserSign_tb'); //datagrids
 var addForm = $('#sysCodeTypeForm');  //编辑或添加表单
 var addDialog = $('#basic'); //编辑或添加对话框
 $(function(){
 	//默认加载函数
 	lion.web.AppInit();
-	icondg=$("#sys_usersign_tb");
+	icondg=$("#sys_adminshowuserSign_tb");
 	addForm=$('#sysCodeTypeForm');
 	addDialog=$('#basic');
 	var queryForm=$('#queryform');
@@ -23,24 +23,29 @@ $(function(){
 		console.dir("fdasd");
 	    icondg.datagrids('reload');
 	});
-	//添加
-	$('#btnAdd').click(function(){
-		addForm.reset();
-	    addDialog.find('.modal-header h4 span').text('添加单项比赛学生报名');
-	   // addDialog.modal('toggle');
+	//通过审核
+	$('#btnPass').click(function(){
+		 var row=icondg.datagrids('getSelected');
+		 console.dir(row);
+		 lion.web.post({
+		   url:'pass.json',
+		   data:row,
+		   unselectedmsg:'请选择要审核记录',
+		   confirmmsg:'确认要审核此记录？',
+		   success:successEditFrm,
+		 });
+		 
 	});
-	 //编辑
-    $('#btnEdit').click(function(){
-        var row=icondg.datagrids('getSelected');
-	    if(!row){
-	       lion.util.info('提示','请选择要编辑记录');
-	       return;
-	    }
-	    addForm.reset();
-	    addDialog.find('.modal-header h4 span').text('编辑单项比赛学生报名');
-	    addDialog.modal('toggle');
-	    addForm.fill(row);
-	    $("#categoryId").combotree('val',row.categoryId);
+	 //审核失败
+    $('#btnDeny').click(function(){
+    	 var row=icondg.datagrids('getSelected');
+		 lion.web.post({
+		   url:'deny.json',
+		   data:row,
+		   unselectedmsg:'请选择要审核记录',
+		   confirmmsg:'确认要审核此记录？',
+		   success:successEditFrm,
+		 });
     });
     
 	//保存
@@ -76,7 +81,7 @@ $(function(){
 	       addDialog.modal('toggle');
 	       icondg.datagrids('reload');
 	     },
-	     msg:'添加单项比赛学生报名未成功'
+	     msg:'添加学生报名未成功'
 	   });
 	 }
 	//编辑成功的函数
@@ -87,7 +92,7 @@ $(function(){
 	         addDialog.modal('toggle');
 	         icondg.datagrids('reload');
 	     },
-	     msg:'编辑单项比赛学生报名未成功'
+	     msg:'编辑学生报名未成功'
 	   });
 	}
 	//导出Excel
@@ -120,19 +125,12 @@ function formatterCheckBox(data,type,full){
 
 	return data;
 }
-//判断是否编辑
-function formatterEidtable(data,type,full) {
-  var name =$.lion.lang.editable.n;
-  if (data) {
-    name = $.lion.lang.editable.y;
-  }
-  return name;
-}
+
 
 //验证表单
 handleVForm=function(vForm,submitCallBackfn){
   var addError = $('.alert-danger', vForm);
-  var addSuccess = $('.alert-success',vForm);
+    var addSuccess = $('.alert-success',vForm);
   vForm.validate({
         errorElement: 'span',
         errorClass: 'help-block help-block-error', 
@@ -140,23 +138,10 @@ handleVForm=function(vForm,submitCallBackfn){
         onkeyup:false,
         ignore: '', 
         messages: {
-        	studentName:{
-        		required:'请输入学生姓名',
-        		rangelength:jQuery.validator.format('学生姓名长度为{0}和{1}字符之间')
+        	policyType:{
+        		required:'请输入学生报名类型',
+        		rangelength:jQuery.validator.format('保单类型长度为{0}和{1}字符之间')
         	},
-        	showName:{
-        		required:'请输入节目名称',
-        		rangelength:jQuery.validator.format('节目名称长度为{0}和{1}字符之间')
-        	},
-        	mobile:{
-        		required:'请输入学生/家长手机号',
-        		rangelength:jQuery.validator.format('手机号长度为{0}和{1}字符之间')
-        	},
-        	tutor:{
-	            required:'请输入指导老师姓名',
-	            rangelength:jQuery.validator.format('指导老师姓名为{0}和{1}字符之间'),
-        	},
-        	
         	insuredName:{
 	            required:'请输入学生姓名',
 	            rangelength:jQuery.validator.format('被保人姓名长度为{0}和{1}字符之间'),
@@ -164,22 +149,10 @@ handleVForm=function(vForm,submitCallBackfn){
         	}
         },
         rules: {
-        	studentName: {
+        	policyType: {
                 required:true,
                 rangelength:[1,128]
             },
-            showName: {
-                required:true,
-                rangelength:[1,128]
-            },
-            mobile: {
-                required:true,
-                rangelength:[1,11]
-            },
-            tutor:{
-                required: true,
-                rangelength:[1,20],
-           },
             insuredName:{
               required: true,
                 rangelength:[1,128],

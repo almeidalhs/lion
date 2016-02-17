@@ -23,7 +23,7 @@ $(function() {
 	 //添加
 	 $('#btnAdd').on('click',function(){
 		 addForm.reset();
-	 	 addDialog.find('.modal-header h4 span').text('添加展映项目');
+	 	 addDialog.find('.modal-header h4 span').text('添加艺术节展演活动项目');
 	 	 var row=getSelectedRow();
 		 if(row){
 			 $("#pCategoryId").combotree('val',row.id);
@@ -43,7 +43,7 @@ $(function() {
 			 return;
 		 }//alert(row.categoryName);
  		 addForm.reset();
-    	 addDialog.find('.modal-header h4 span').text('编辑展映项目');
+    	 addDialog.find('.modal-header h4 span').text('编辑艺术节展演活动项目');
 		 addDialog.modal('toggle');
 		 addForm.fill(row);
 		 $("#pCategoryId").combotree('val',row._parentId);
