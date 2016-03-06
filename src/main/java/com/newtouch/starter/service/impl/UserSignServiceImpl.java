@@ -24,7 +24,7 @@ public class UserSignServiceImpl extends AbstractService implements UserSignServ
 	@Override
 	public PageResult<UserSign> doFindByCriteria(QueryCriteria criteria) {
 		String queryEntry = " from UserSign ";
-		String[] whereBodies = {"studentName like :studentName", "schUserId = :schUserId"};
+		String[] whereBodies = {"studentName like :studentName", "schUserId = :schUserId", "status = :status"};
 		
 		String fromJoinSubClause = "";
 		
@@ -47,7 +47,7 @@ public class UserSignServiceImpl extends AbstractService implements UserSignServ
 	@Override
 	public PageResult<UserSign> doFindByCriteriaAdmin(QueryCriteria criteria) {
 		String queryEntry = " from UserSign ";
-		String[] whereBodies = {"studentName like :studentName"};
+		String[] whereBodies = {"category.categoryName like :categoryName", "schoolName like :schoolName", "areaType like :areaType", "showName like :showName"};
 		
 		String fromJoinSubClause = "";
 		

@@ -6,7 +6,7 @@ body{
    font-family:'Microsoft YaHeis';
 }
 .login {
-  background:url(../img/bg.png) no-repeat ;
+  background:url(../img/bg.png) ; center no-repeat; height£º500px;
   /**background-color: #364150 !important;**/
   font-family:'Microsoft YaHeis';
 }

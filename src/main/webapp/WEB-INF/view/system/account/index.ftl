@@ -88,34 +88,34 @@
 											<div class="tab-pane active" id="tab_1_1">
 												<form class="form-horizontal" id="formuser1">
 													<div class="form-group">
-														<label class="control-label  col-md-3">所属教育署</label>
-														<label class="control-label  col-md-1">
+														<label class="control-label  col-md-2">所属教育署</label>
+														<label class="control-label  col-md-2">
 															${user.department.nameZh!}
 														</label>
 													
 													</div>
 													
 													<div class="form-group">
-														<label class="control-label col-md-3">学校中文名全称</label>
-														<label class="control-label  col-md-1">
+														<label class="control-label col-md-2">学校中文名全称</label>
+														<label class="control-label  col-md-2">
 															${user.realnameZh!}
 														</label>
 													</div>
 													<div class="form-group">
-														<label class="control-label col-md-3">学校地址</label>
-														<label class="control-label  col-md-1">
+														<label class="control-label col-md-2">学校地址</label>
+														<label class="control-label  col-md-2">
 															${user.location!}
 														</label>
 													</div>
 													<div class="form-group">
-														<label class="control-label col-md-3">艺术辅导员姓名</label>
-														<label class="control-label  col-md-1">
+														<label class="control-label col-md-2">艺术辅导员姓名</label>
+														<label class="control-label  col-md-2">
 															${user.description!}
 														</label>
 													</div>													
 													<div class="form-group">
-														<label class="control-label col-md-3">艺术辅导员手机</label>
-														<label class="control-label  col-md-1">
+														<label class="control-label col-md-2">艺术辅导员手机</label>
+														<label class="control-label  col-md-2">
 															${user.mobile!}
 														</label>
 													</div>		

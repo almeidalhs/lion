@@ -203,7 +203,10 @@ public class UserSignController  extends AbstractController{
 		if(StringUtils.isNotEmpty(userSignVo.getStudentName())){
 			queryCriteria.addQueryCondition("studentName","%"+userSignVo.getStudentName()+"%");
 		}
+		queryCriteria.addQueryCondition("status",1);
 		//查询保单
+		UserInfo userInfo = LoginSecurityUtil.getUser();
+		queryCriteria.addQueryCondition("schUserId", userInfo.getId());
 		PageResult<UserSign> result=userSignService.doFindByCriteria(queryCriteria);
 		
 		Map<String, Map<Object, Object>> fieldCodeTypes = new HashMap<String, Map<Object, Object>>();

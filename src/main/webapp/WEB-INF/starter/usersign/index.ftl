@@ -48,21 +48,18 @@
 		<div class="row">
 			<div class="col-md-12 margin-bottom-10">
 				<form id="queryform" class="form-horizontal">
-					<!--
-					<label class="control-label col-md-2" for="nameZh" >
-						<@spring.message "sys.usersign.html.category"/>
+					<label class="control-label col-md-7" for="nameZh" >
 					</label>
+					<!--
 					<div class="col-md-2">
 						<input  id="category"  name="category"  
 						 	placeholder="请选择比赛项目…"  type="text" 
 						 	class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>					
 					</div>
 					-->
-					<label class="control-label col-md-2" for="nameZh" >
-						<@spring.message "sys.usersign.html.studentname"/>
-					</label>
-					<div class="col-md-2">
-						<input class="form-control input-small" type="text" size="30" name="studentName" id="studentName"  placeholder="<@spring.message "sys.usersign.html.tip.studentname"/>"  />					
+					
+					<div class="col-md-3">
+						<input class="form-control input-medium" type="text" size="30" name="studentName" id="studentName"  placeholder="请输入搜索信息"  />					
 					</div>
 					
 					<div class="col-md-2">
@@ -77,20 +74,20 @@
 			<div class="col-md-12 margin-bottom-10" id="toolbar">
 				<a id="btnAdd" class="btn btn-sm yellow" data-toggle="modal" href="#basic">
 					<i class="fa fa-plus"></i> 
-					<@spring.message "common.toolbar.btn.add.text"/>  
-				</a>
+					点击报名
+				</a>&nbsp;&nbsp;&nbsp;
 				<a id="btnEdit" class="btn btn-sm red">
 					<i class="fa fa-edit"></i> 
 					<@spring.message "common.toolbar.btn.edit.text"/>
-				</a>
+				</a>&nbsp;&nbsp;&nbsp;
 				<a id="btnDelete" class="btn btn-sm purple">
 					<i class="fa fa-times"></i> 
 					<@spring.message "common.toolbar.btn.delete.text"/> 
-				</a>
+				</a>&nbsp;&nbsp;&nbsp;
 				<a id="btnRefresh" class="btn btn-sm blue">
 					<i class="fa fa-refresh"></i> 
 					<@spring.message "common.toolbar.btn.reload.text"/>   
-				</a>
+				</a>&nbsp;&nbsp;&nbsp;
 				<a href="javascript:void(0)" id="btnExport"  class="btn btn-sm green">
 					<i class="fa  fa-file-excel-o"></i>
 					<@spring.message "common.toolbar.btn.export.text"/>
@@ -156,7 +153,7 @@
 													</label>
 													<div class="col-md-5">
 															 <input  id="categoryId"  name="categoryId"  
-						 	  	  								placeholder="请选择单项比赛项目…"  type="text" 
+						 	  	  								placeholder="比赛项目…"  type="text" 
 						 		  								class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>										 
 													</div>
 												</div>
@@ -168,7 +165,7 @@
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
-															<input type="text"  id="studentName" name="studentName" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.studentname"/>" size="30"/>
+															<input type="text"  id="studentName" name="studentName" maxlength="100" class="form-control" placeholder="请输入学生姓名,多名学生请以/分割" size="80"/>
 														</div>
 													</div>
 												</div>
@@ -185,8 +182,7 @@
 													</div>
 													
 												</div>
-							
-												
+
 												<div class="form-group">
 													<label class="col-md-3 control-label">
 														<@spring.message "sys.usersign.html.grade"/>
@@ -210,9 +206,7 @@
 														</div>
 													</div>
 												</div>
-												
-												
-												
+
 												<div class="form-group">
 													<label class="col-md-3 control-label">
 														<@spring.message "sys.usersign.html.tutor"/>

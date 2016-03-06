@@ -151,10 +151,19 @@ public class AdminShowUserSignController  extends AbstractController{
 		}
 		
 		//查询条件 名称按模糊查询
-		if(StringUtils.isNotEmpty(userSignVo.getStudentName())){
-			queryCriteria.addQueryCondition("studentName","%"+userSignVo.getStudentName()+"%");
+		if(StringUtils.isNotEmpty(userSignVo.getShowName())){
+			queryCriteria.addQueryCondition("showName","%"+userSignVo.getShowName()+"%");
+		}
+		if(StringUtils.isNotEmpty(userSignVo.getCategoryName())){
+			queryCriteria.addQueryCondition("categoryName","%"+userSignVo.getCategoryName()+"%");
 		}
 
+		if(StringUtils.isNotEmpty(userSignVo.getSchoolName())){
+			queryCriteria.addQueryCondition("schoolName","%"+userSignVo.getSchoolName()+"%");
+		}
+		if(StringUtils.isNotEmpty(userSignVo.getAreaType())){
+			queryCriteria.addQueryCondition("areaType","%"+userSignVo.getAreaType()+"%");
+		}
 		/*UserInfo userInfo = LoginSecurityUtil.getUser();
 		queryCriteria.addQueryCondition("schUserId", userInfo.getId());*/
 		PageResult<ShowUserSign> pageResult = userSignService.doFindByCriteriaAdmin(queryCriteria);
@@ -186,8 +195,12 @@ public class AdminShowUserSignController  extends AbstractController{
 		if(StringUtils.isNotEmpty(userSignVo.getStudentName())){
 			queryCriteria.addQueryCondition("studentName","%"+userSignVo.getStudentName()+"%");
 		}
+		//查询条件 名称按模糊查询
+		if(StringUtils.isNotEmpty(userSignVo.getSchoolName())){
+			queryCriteria.addQueryCondition("schoolName","%"+userSignVo.getSchoolName()+"%");
+		}
 		//查询保单
-		PageResult<ShowUserSign> result=userSignService.doFindByCriteria(queryCriteria);
+		PageResult<ShowUserSign> result=userSignService.doFindByCriteriaAdmin(queryCriteria);
 		
 		Map<String, Map<Object, Object>> fieldCodeTypes = new HashMap<String, Map<Object, Object>>();
 

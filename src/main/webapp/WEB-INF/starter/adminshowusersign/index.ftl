@@ -49,23 +49,23 @@
 		<div class="row">
 			<div class="col-md-12 margin-bottom-10">
 				<form id="queryform" class="form-horizontal">
-					<!--
-					<label class="control-label col-md-2" for="nameZh" >
-						<@spring.message "sys.usersign.html.category"/>
+					<label class="control-label col-md-2" >
 					</label>
+
 					<div class="col-md-2">
-						<input  id="category"  name="category"  
-						 	placeholder="请选择比赛项目…"  type="text" 
-						 	class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>					
+						<input class="form-control input-small" type="text" size="30" name="areaType" id="areaType"  placeholder="请输入所属教育署"  />					
 					</div>
-					-->
-					<label class="control-label col-md-2" for="nameZh" >
-						<@spring.message "sys.usersign.html.studentname"/>
-					</label>
+
 					<div class="col-md-2">
-						<input class="form-control input-small" type="text" size="30" name="studentName" id="studentName"  placeholder="<@spring.message "sys.usersign.html.tip.studentname"/>"  />					
+						<input class="form-control input-small" type="text" size="30" name="schoolName" id="schoolName"  placeholder="请输入学校名称"  />					
 					</div>
 					
+					<div class="col-md-2">
+						<input class="form-control input-small" type="text" size="30" name="categoryName" id="categoryName"  placeholder="请输入展演项目"  />					
+					</div>
+					<div class="col-md-2">
+						<input class="form-control input-small" type="text" size="30" name="showName" id="showName"  placeholder="请输入节目名称"  />					
+					</div>
 					<div class="col-md-2">
 						<a href="javascript:void(0)" id="btnQuery" class="btn blue">
 							<i class="fa fa-search"></i> 
@@ -79,12 +79,12 @@
 				<a id="btnPass" class="btn btn-sm yellow" data-toggle="modal" href="#basic">
 					<i class="fa fa-gift"></i> 
 					<@spring.message "sys.usersign.html.status.pass"/>  
-				</a>
+				</a>&nbsp;&nbsp;&nbsp;
 				<a id="btnDeny" class="btn btn-sm red">
 					<i class="fa fa-warning"></i> 
 					<@spring.message "sys.usersign.html.status.deny"/>
 				</a>
-				
+				&nbsp;&nbsp;&nbsp;
 				<a href="javascript:void(0)" id="btnExport"  class="btn btn-sm green">
 					<i class="fa  fa-file-excel-o"></i>
 					<@spring.message "common.toolbar.btn.export.text"/>
@@ -104,31 +104,31 @@
 							 	学校名称
 							</th>
 							<th data-field="category.categoryName" style="width:50px;">
-							 	展演活动项目
+							 	展演项目
 							</th>							
-							<th data-field="showName" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.showname"/>
+							<th data-field="showName" style="width:90px;">
+							 	节目/作品名称
 							</th>
-							<th data-field="studentName" style="width:50px;">
-							 	节目人数
+							<th data-field="studentName" style="width:30px;">
+							 	人数
 							</th>
-							<th data-field="gradeName" style="width:50px;">
-							 	节目时长
+							<th data-field="gradeName" style="width:40px;">
+							 	时长
 							</th>
-							<th data-field="tutor" style="width:50px;">
+							<th data-field="tutor" style="width:45px;">
 							 	指导老师1
-							</th>
-							<th data-field="mobile" style="width:60px;">
-							 	指导老师1手机号
-							</th>
-							<th data-field="tutor2" style="width:50px;">
+							</th>							
+							<th data-field="tutor2" style="width:45px;">
 							 	指导老师2
 							</th>
-							<th data-field="className" style="width:50px;">
+							<th data-field="className" style="width:45px;">
 							 	指导老师3
 							</th>
+							<th data-field="mobile" style="width:60px;">
+							 	节目联系人手机
+							</th>
 							<th data-field="status" style="width:50px;" data-formatter="formatterEidtable">
-							 	<@spring.message "sys.usersign.html.status" />
+							 	审核状态
 							</th>
 						</tr>
 					</thead>

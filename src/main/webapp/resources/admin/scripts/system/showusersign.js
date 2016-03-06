@@ -39,7 +39,6 @@ $(function(){
 	    addForm.reset();
 	    addDialog.find('.modal-header h4 span').text('编辑艺术节展演活动学生报名');
 	    addDialog.modal('toggle');
-	    alert(row);
 	    addForm.fill(row);
 	    $("#categoryId").combotree('val',row.categoryId);
     });
@@ -222,11 +221,11 @@ handleVForm=function(vForm,submitCallBackfn){
 function formatterEidtable(data,type,full) {
   var name = '';
   if (data == 0) {
-    name = "未审核";
-  } else if(data ==1) {
-	  name = "审核通过";
-  } else if(data ==2) {
-	  name = "申请被拒绝";
-  }
+	    name = "<font color=\"blue\"><b>待审核</b></font>";
+	  } else if(data ==1) {
+		  name = "<font color=\"green\"><b>通过</b></font>";
+	  } else if(data ==2) {
+		  name = "<font color=\"red\"><b>未通过</b></font>";
+	  }
   return name;
 }

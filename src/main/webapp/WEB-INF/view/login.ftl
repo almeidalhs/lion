@@ -38,6 +38,40 @@ Author: wanglijun
 <link href="${base}/resources/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
 <!-- END THEME STYLES -->
 <!--<link rel="shortcut icon" href="favicon.ico"/>-->
+	<style  type="text/css">
+		/*让背景图铺满整个屏幕*/
+		html{
+			/*背景图不用设置尺寸，如果不合适直接改图*/
+			background: url('${base}/resources/global/img/index.jpg')  no-repeat center center fixed;			
+			background-size:cover;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;			
+		}
+		body{
+
+		}
+		.title{
+			/*标题的图片大小改这里*/
+			width: 700px;
+			height: 120px;
+			margin: 50px auto 30px;
+		}
+		
+		.title img{
+			max-width: 100%;
+		}
+		.person{
+			/*人的图片*/
+			width: 80px;  
+			height: 166px;
+			position: fixed;
+			bottom: 0;
+			left: 20%;
+			background: url('${base}/resources/global/img/person.png') no-repeat;
+
+		}
+	</style>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -48,14 +82,19 @@ Author: wanglijun
 <!-- END SIDEBAR TOGGLER BUTTON -->
 <!-- BEGIN LOGO -->
 <div class="logo">
-	<a href="index.htm"><h1 class="form-title">上海市浦东新区青少年活动中心艺术信息管理系统</h3>
+	<!--a href="index.htm"><h1 class="form-title">上海市浦东新区青少年活动中心艺术信息管理系统</h3-->
 		<!--img src="${base}/resources/logo/logo-login.png" alt=""/-->
 	</a>
 </div>
 <!-- END LOGO -->
 <!-- BEGIN LOGIN -->
-<div class="content">
-	<!-- BEGIN LOGIN FORM -->
+<div class="container">
+	<div class="title">
+		<img src="${base}/resources/global/img/title.png">
+	</div>
+	<div class="content">
+		<!-- 登陆框放这里 -->
+		<!-- BEGIN LOGIN FORM -->
 	<form class="login-form"  method="post"  action="${base}/login.htm">
 		<h3 class="form-title">
 			欢迎登录
@@ -111,8 +150,12 @@ Author: wanglijun
 			</button>
 		</div>
 	</form>
-	<!-- END FORGOT PASSWORD FORM -->
+	</div>
+
+	<div class="person"></div>
 </div>
+
+
 <div class="copyright">
 上海竹青网络技术有限公司
 </div>

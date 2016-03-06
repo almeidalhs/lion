@@ -48,12 +48,11 @@
 		<div class="row">
 			<div class="col-md-12 margin-bottom-10">
 				<form id="queryform" class="form-horizontal">
-					
-					<label class="control-label col-md-2" for="nameZh" >
-						艺术节展演活动节目名称
+					<label class="control-label col-md-7" >
 					</label>
-					<div class="col-md-2">
-						<input class="form-control input-small" type="text" size="50" name="showName" id="studentName"  placeholder="请输入艺术节展演活动节目名称"  />					
+
+					<div class="col-md-3">
+						<input class="form-control input-medium" type="text" size="50" name="showName" id="studentName"  placeholder="请输入搜索信息"  />					
 					</div>
 					
 					<div class="col-md-2">
@@ -68,20 +67,20 @@
 			<div class="col-md-12 margin-bottom-10" id="toolbar">
 				<a id="btnAdd" class="btn btn-sm yellow" data-toggle="modal" href="#basic">
 					<i class="fa fa-plus"></i> 
-					<@spring.message "common.toolbar.btn.add.text"/>  
-				</a>
+					  点击报名
+				</a>&nbsp;&nbsp;&nbsp;
 				<a id="btnEdit" class="btn btn-sm red">
 					<i class="fa fa-edit"></i> 
 					<@spring.message "common.toolbar.btn.edit.text"/>
-				</a>
+				</a>&nbsp;&nbsp;&nbsp;
 				<a id="btnDelete" class="btn btn-sm purple">
 					<i class="fa fa-times"></i> 
 					<@spring.message "common.toolbar.btn.delete.text"/> 
-				</a>
+				</a>&nbsp;&nbsp;&nbsp;
 				<a id="btnRefresh" class="btn btn-sm blue">
 					<i class="fa fa-refresh"></i> 
 					<@spring.message "common.toolbar.btn.reload.text"/>   
-				</a>
+				</a>&nbsp;&nbsp;&nbsp;
 				<a href="javascript:void(0)" id="btnExport"  class="btn btn-sm green">
 					<i class="fa  fa-file-excel-o"></i>
 					<@spring.message "common.toolbar.btn.export.text"/>
@@ -95,28 +94,34 @@
 						 		<input type="checkbox" class="group-checkable" data-set="#sys_showusersign_tb.checkboxes"  data-sortable="false" />
 						 	</th>	
 						 	<th data-field="category.categoryName" style="width:50px;">
-							 	艺术节展演活动项目
+							 	展演项目
 							</th>			
-							<th data-field="showName" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.showname"/>
+							<th data-field="showName" style="width:90px;">
+							 	节目/作品名称
+							</th>	
+							<th data-field="groupType" style="width:40px;">
+							 	组别
 							</th>							
-							<th data-field="studentName" style="width:50px;">
-							 	节目人数
+							<th data-field="studentName" style="width:25px;">
+							 	人数
 							</th>
-							<th data-field="gradeName" style="width:50px;">
-							 	节目时长
+							<th data-field="gradeName" style="width:40px;">
+							 	时长
 							</th>
-							<th data-field="tutor" style="width:50px;">
+							<th data-field="tutor" style="width:45px;">
 							 	指导老师1
-							</th>
-							<th data-field="mobile" style="width:50px;">
-							 	指导老师1手机号
-							</th>
-							<th data-field="tutor2" style="width:50px;">
+							</th>							
+							<th data-field="tutor2" style="width:45px;">
 							 	指导老师2
 							</th>
-							<th data-field="className" style="width:50px;">
+							<th data-field="className" style="width:45px;">
 							 	指导老师3
+							</th>
+							<th data-field="mobile" style="width:80px;">
+							 	节目联系人手机
+							</th>
+							<th data-field="status" style="width:40px;" data-formatter="formatterEidtable">
+							 	审核状态
 							</th>
 						</tr>
 					</thead>
@@ -150,12 +155,12 @@
 											<div class="form-body">												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														艺术节展演项目
+														展演项目
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
 															<input  id="categoryId"  name="categoryId"  
-								 	placeholder="请选择艺术节展演项目…"  type="text" 
+								 	placeholder="展演项目…"  type="text" 
 								 	class="lion-combotree form-control"   data-loadURL="${base}/showcategory/comboxtree.json" data-width="225px" data-height="300px"/>					
 														</div>
 													</div>
@@ -176,7 +181,7 @@
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
-															 <select  id="groupType" name="groupType"  placeholder="请选择展演组别.."  
+															 <select  id="groupType" name="groupType"  placeholder="展演组别.."  
 														 	class="lion-combo form-control select2" data-valueField='codeValue' 
 														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=zygroup">
 														 </select>
@@ -186,7 +191,7 @@
 												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-													 节目人数
+													 人数
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
@@ -196,14 +201,12 @@
 												</div>
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														节目时长
+														时长
 													</label>
 													<div class="col-md-5">
 														<div nowrap><p>
-																
 															<input type="text"  id="minute" name="minute" size="5"/>&nbsp;分
 															<input type="text"  id="second" name="second" size="5"/>&nbsp;秒
-															    
 															</p>
 														</div>
 													</div>
@@ -221,7 +224,7 @@
 												</div>
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														指导老师1手机号
+														节目联系人手机
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
