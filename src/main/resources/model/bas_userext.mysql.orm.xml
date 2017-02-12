@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<package>com.newtouch.starter.userext</package>
+	<access>PROPERTY</access>
+	
+	<!-- 项目信息 -->
+	<entity class="UserExt">
+		<table name="bas_user_ext" />
+		<attributes>
+			<id name="id">
+				<column name="bas_userext_id" unique="true" nullable="false" precision="11" scale="0" />
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="bas_user_id">
+				<column name="bas_user_id" nullable="true" updatable="true"/>
+			</basic>
+			<basic name="username">
+				<column name="username" nullable="true" updatable="true"/>
+			</basic>
+			<basic name="join_num">
+				<column name="join_num" nullable="true"/>
+			</basic>		
+		</attributes>
+	</entity>
+</entity-mappings>
