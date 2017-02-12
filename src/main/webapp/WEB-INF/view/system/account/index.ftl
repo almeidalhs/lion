@@ -88,7 +88,7 @@
 											<div class="tab-pane active" id="tab_1_1">
 												<form class="form-horizontal" id="formuser1">
 													<div class="form-group">
-														<label class="control-label  col-md-2">所属教育署</label>
+														<label class="control-label  col-md-3">所属教育署</label>
 														<label class="control-label  col-md-2">
 															${user.department.nameZh!}
 														</label>
@@ -96,27 +96,33 @@
 													</div>
 													
 													<div class="form-group">
-														<label class="control-label col-md-2">学校中文名全称</label>
+														<label class="control-label col-md-3">学校中文名全称</label>
 														<label class="control-label  col-md-2">
 															${user.realnameZh!}
 														</label>
 													</div>
 													<div class="form-group">
-														<label class="control-label col-md-2">学校地址</label>
+														<label class="control-label col-md-3">学校地址</label>
 														<label class="control-label  col-md-2">
 															${user.location!}
 														</label>
 													</div>
 													<div class="form-group">
-														<label class="control-label col-md-2">艺术辅导员姓名</label>
+														<label class="control-label col-md-3">艺术辅导员姓名</label>
 														<label class="control-label  col-md-2">
 															${user.description!}
 														</label>
 													</div>													
 													<div class="form-group">
-														<label class="control-label col-md-2">艺术辅导员手机</label>
+														<label class="control-label col-md-3">艺术辅导员手机</label>
 														<label class="control-label  col-md-2">
 															${user.mobile!}
+														</label>
+													</div>
+													<div class="form-group">
+														<label class="control-label col-md-3">邮编</label>
+														<label class="control-label  col-md-2">
+															${user.postcode!}
 														</label>
 													</div>		
 												</form>
@@ -125,18 +131,20 @@
 											<div class="tab-pane" id="tab_1_2">
 												<form  action="#" class="form-horizontal" id="formuser">
 													<div class="form-group">
-														<label class="control-label  col-md-3">所属教育署</label>
-														<div class="col-md-8 input-group">
-															<input type="text" class="form-control input-medium" name="departmentId" value="${user.department.nameZh!}" maxlength="128" size="30"/>
-														</div>
+													<label class="col-md-3 control-label" for="departmentId">所属教育署</label>
+													<div class="col-md-8 input-group">
+															 <input  id="departmentId"  name="departmentId"  
+					 	  	  placeholder="请选择教育署…"  type="text" 
+					 		  class="lion-combotree form-control"   data-loadURL="${base}/system/department/comboxtree.json" data-width="200px" data-height="300px"/>												
 													</div>
-													
+												</div>	
 													<div class="form-group">
 														<label class="control-label col-md-3">学校中文名全称</label>
 														<div class="col-md-8 input-group">
-															<input type="text" class="form-control input-medium"  name="realnameZh" value="${user.realnameZh!}"  maxlength="128" size="30"/>
+															<input type="text" class="form-control input-medium"  id="realnameZhid"  name="realnameZh" value="${user.realnameZh!}"  maxlength="128" size="30"/>
 														</div>
 													</div>
+													
 													<div class="form-group">
 														<label class="control-label col-md-3">学校地址</label>
 														<div class="col-md-8 input-group">
@@ -174,7 +182,7 @@
 															<input type="text"   class="form-control input-medium" name="officePhone" value="${user.officePhone!}" maxlength="30" size="30"/>
 														</div>
 													</div>													
-													
+													<input type="hidden" id="liondepartmentId" value="${user.departmentId!}"/>
 													<div class=" form-group">
 															<label class="col-md-3 control-label"></label>
 															<div class="col-md-8 input-group">

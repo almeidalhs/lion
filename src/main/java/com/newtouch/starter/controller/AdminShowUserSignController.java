@@ -199,6 +199,13 @@ public class AdminShowUserSignController  extends AbstractController{
 		if(StringUtils.isNotEmpty(userSignVo.getSchoolName())){
 			queryCriteria.addQueryCondition("schoolName","%"+userSignVo.getSchoolName()+"%");
 		}
+		if(StringUtils.isNotEmpty(userSignVo.getAreaType())){
+			queryCriteria.addQueryCondition("areaType","%"+userSignVo.getAreaType()+"%");
+		}
+		if(StringUtils.isNotEmpty(userSignVo.getCategoryName())){
+			queryCriteria.addQueryCondition("categoryName","%"+userSignVo.getCategoryName()+"%");
+		}
+		queryCriteria.addQueryCondition("status",1);
 		//查询保单
 		PageResult<ShowUserSign> result=userSignService.doFindByCriteriaAdmin(queryCriteria);
 		

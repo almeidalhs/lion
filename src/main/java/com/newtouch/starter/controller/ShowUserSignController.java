@@ -1,20 +1,20 @@
 package com.newtouch.starter.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +39,9 @@ import com.newtouch.lion.web.model.QueryDt;
 import com.newtouch.lion.web.servlet.view.support.BindMessage;
 import com.newtouch.lion.web.servlet.view.support.BindResult;
 import com.newtouch.lion.web.shiro.session.LoginSecurityUtil;
+import com.newtouch.starter.service.ShowCategoryService;
 import com.newtouch.starter.service.ShowUserSignService;
+import com.newtouch.starter.showcategory.ShowCategory;
 import com.newtouch.starter.showusersign.ShowUserSign;
 import com.newtouch.starter.showusersign.ShowUserSignVo;
 
@@ -54,6 +56,7 @@ public class ShowUserSignController  extends AbstractController{
 	private static final String STEP1_RETURN = "/showUserSign/step1";
 	private static final String STEP2_RETURN = "/showUserSign/step2";
 	private static final String LAW_RETURN = "/showUserSign/lawindex";
+	private static final String LAW_RETURN2 = "/showUserSign/lawindex2";
 	
 	/** 默认排序字段名称 */
 	private static final String DEFAULT_ORDER_FILED_NAME = "id";
@@ -63,7 +66,9 @@ public class ShowUserSignController  extends AbstractController{
 	/**部门扩展*/
 	@Autowired
 	private ShowUserSignService  userSignService;
-	
+	/**部门扩展*/
+	@Autowired
+	private ShowCategoryService  showCategoryService;
 	@Autowired
 	private UserService  userService;
 	/**Excel通用导出*/
@@ -131,22 +136,25 @@ public class ShowUserSignController  extends AbstractController{
 		userSign.setSchUserId(userInfo.getId());
 		
 		/*userSign.setAreaType(userSignVo.getAreaType());
-		userSign.setCategoryId(userSignVo.getCategoryId());
-		userSign.setClassName(userSignVo.getClassName());
 		userSign.setEmail(userSignVo.getEmail());
 		userSign.setExamUserId(userSignVo.getExamUserId());
-		userSign.setExamUserName(userSignVo.getExamUserName());
-		userSign.setGroupType(userSignVo.getGroupType());
 		userSign.setId(userSignVo.getId());
-		userSign.setMobile(userSignVo.getMobile());
 		userSign.setSchoolName(userSignVo.getSchoolName());
 		userSign.setSex(userSignVo.getSex());
-		userSign.setShowName(userSignVo.getShowName());
 		userSign.setSignType(userSignVo.getSignType());
-		userSign.setStatus(userSignVo.getStatus());
+		userSign.setStatus(userSignVo.getStatus());		
+		*/
+		
+		userSign.setCategoryId(userSignVo.getCategoryId());
+		userSign.setShowName(userSignVo.getShowName());
+		userSign.setExamUserName(userSignVo.getExamUserName());
+		userSign.setGroupType(userSignVo.getGroupType());		
+		
 		userSign.setStudentName(userSignVo.getStudentName());
 		userSign.setTutor(userSignVo.getTutor());
-		userSign.setTutor2(userSignVo.getTutor2());*/
+		userSign.setTutor2(userSignVo.getTutor2());
+		userSign.setClassName(userSignVo.getClassName());
+		userSign.setMobile(userSignVo.getMobile());
 		
 		this.userSignService.doUpdate(userSign);
 		Map<String, String> params = new HashMap<String, String>();
@@ -190,18 +198,46 @@ public class ShowUserSignController  extends AbstractController{
 			queryCriteria.setOrderDirection(QueryCriteria.ASC);
 		}
 		
+		UserInfo userInfo = LoginSecurityUtil.getUser();
+		queryCriteria.addQueryCondition("schUserId", userInfo.getId());
+		PageResult<ShowUserSign> pageResult = null;
 		//查询条件 名称按模糊查询
 		if(StringUtils.isNotEmpty(userSignVo.getStudentName())){
 			queryCriteria.addQueryCondition("studentName","%"+userSignVo.getStudentName()+"%");
+			queryCriteria.addQueryCondition("showName","%"+userSignVo.getStudentName()+"%");
+			queryCriteria.addQueryCondition("categoryName","%"+userSignVo.getStudentName()+"%");
+			pageResult = userSignService.doSearchByCriteria(queryCriteria);
+		}else{
+			pageResult = userSignService.doSearchByCriteria(queryCriteria);
 		}
-		if(userSignVo.getCategoryId()!=null){
-			queryCriteria.addQueryCondition("categoryId","%"+userSignVo.getCategoryId()+"%");
-		}
-		UserInfo userInfo = LoginSecurityUtil.getUser();
-		queryCriteria.addQueryCondition("schUserId", userInfo.getId());
-		PageResult<ShowUserSign> pageResult = userSignService.doFindByCriteria(queryCriteria);
 		return pageResult.getDataTable(query.getRequestId());
 	}
+	
+	@RequestMapping(value = "checkisexitcategory")
+	@ResponseBody
+	public String checkIsExistByCategory(HttpServletRequest servletRequest,
+			@RequestParam(required=true) Long categoryId) {
+		Boolean flag=Boolean.FALSE;
+		UserInfo userInfo = LoginSecurityUtil.getUser();
+		if(categoryId!=null){
+			ShowCategory showCategory = showCategoryService.doFindCategoryById(categoryId);			
+			if(showCategory==null){
+				flag = false;
+			}else{
+				flag=this.isExistByShowUserSignClass(categoryId, userInfo.getId());
+			}
+		}
+		return flag.toString();
+	}
+	
+	private Boolean isExistByShowUserSignClass(Long categoryId, Long schoolId) {
+		QueryCriteria queryCriteria=new QueryCriteria();
+		queryCriteria.addQueryCondition("categoryId",categoryId);
+		queryCriteria.addQueryCondition("schUserId",schoolId);
+		PageResult<ShowUserSign> showUserSignResult =  userSignService.doFindByCriteriaByCategoryAndSchool(queryCriteria);
+		return !CollectionUtils.isEmpty(showUserSignResult.getContent());
+	}
+	
 	/****
 	 * 
 	 * @param tableId
@@ -271,6 +307,11 @@ public class ShowUserSignController  extends AbstractController{
 	@RequestMapping(value = "lawindex")
 	public String lawindex(HttpServletRequest servletRequest, Model model) {
 		return LAW_RETURN;
+	}
+	
+	@RequestMapping(value = "lawindex2")
+	public String lawindex2(HttpServletRequest servletRequest, Model model) {
+		return LAW_RETURN2;
 	}
 	
 	@RequestMapping(value = "step1")

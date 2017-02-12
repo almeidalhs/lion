@@ -6,7 +6,7 @@ body{
    font-family:'Microsoft YaHeis';
 }
 .login {
-  background:url(../img/bg.png) ; center no-repeat; height£º500px;
+  background:url(../img/bg.png887) ; center no-repeat; height£º500px;
   /**background-color: #364150 !important;**/
   font-family:'Microsoft YaHeis';
 }
@@ -19,7 +19,6 @@ body{
 }
 
 .login .content {
-  background-color: #eceef1;
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
   -ms-border-radius: 7px;

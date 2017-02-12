@@ -12,7 +12,14 @@ public interface UserSignService {
 	 */
 	public PageResult<UserSign>  doFindByCriteria(QueryCriteria queryCriteria);
 	
+	public PageResult<UserSign> doSearchByCriteria(QueryCriteria criteria);
+	
 	public PageResult<UserSign> doFindByCriteriaAdmin(QueryCriteria criteria);
+	
+	
+	public UserSign findSignByStudent(String studentName, Long schUserId);
+	
+	
 	/**
 	 * 根据id查询UserSign并返回用户报名对象
 	 * @param id

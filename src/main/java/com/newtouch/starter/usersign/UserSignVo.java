@@ -17,6 +17,7 @@ public class UserSignVo implements Serializable{
 	private Long schUserId;
 	private String schUserName;
 	private String studentName;
+	private String studentNameSearch;
 	private String showName;
 	private String mobile;
 	private int signType;
@@ -190,5 +191,11 @@ public class UserSignVo implements Serializable{
 	}
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+	public String getStudentNameSearch() {
+		return studentNameSearch;
+	}
+	public void setStudentNameSearch(String studentNameSearch) {
+		this.studentNameSearch = studentNameSearch;
 	}
 }

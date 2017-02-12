@@ -294,6 +294,45 @@ public class CategoryServiceImpl extends AbstractService implements CategoryServ
 		}
 		return root;
 	}
+	
+	
+	@Override
+	public Category doFindTopLevel(Long id) {
+		Category category = this.doFindParentLevel(id);
+		if (category.getpCategoryId().longValue() == 0) {
+			return category;
+		} else {
+			Category categoryTop = this.doFindParentLevel(category.getId());
+			return categoryTop;
+		}
 
+	}
+	
+	@Override
+	public Category doFindParentLevel(Long id) {
+		
+		Category category = this.doFindCategoryById(id);		
+		String hql = "from Category where id = :pCategoryId  order by id DESC";
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pCategoryId", category.getpCategoryId());
+		List<Category> departments = categoryDao.query(hql, params);
+		if (departments==null || departments.size()==0) {
+			return null;
+		}
+		return departments.get(0);
+	}
+
+	@Override
+	public Category doFindSelfParent(Long id) {		
+		String hql = "from Category where pCategoryId = :id  order by id DESC";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		List<Category> departments = categoryDao.query(hql, params);
+		if (departments==null || departments.size()==0) {
+			return null;
+		}
+		return departments.get(0);
+	}
 
 }

@@ -25,9 +25,25 @@ $(function(){
 	});
 	//添加
 	$('#btnAdd').click(function(){
-		addForm.reset();
-	    addDialog.find('.modal-header h4 span').text('添加单项比赛学生报名');
-	   // addDialog.modal('toggle');
+		lion.util.post('getjoinnum.json',{},function(data){
+			var join_num = data;
+			//console.dir("join_num="+join_num);
+			//如果超过两个就能再添加了
+			var row=icondg.datagrids('getdata');
+			if(row.length >= join_num){
+				addForm.reset();
+				addDialog.modal('toggle');
+				lion.util.error('提示','您学校名额已满');	
+				icondg.datagrids('reload');
+		    	return;
+			}else{
+				addForm.reset();
+				addDialog.find('.modal-header h4 span').text('添加单项比赛报名');
+			    //addDialog.modal('toggle');
+			}
+		},errorRequest);
+
+		
 	});
 	 //编辑
     $('#btnEdit').click(function(){
@@ -36,11 +52,18 @@ $(function(){
 	       lion.util.info('提示','请选择要编辑记录');
 	       return;
 	    }
+	    //alert(row.status);
+	    if(row.status == 1) {
+	    	lion.util.error('提示','该学生已经通过审核,请不要修改已通过审核的学生信息');
+	    	return;
+	    }
 	    addForm.reset();
 	    addDialog.find('.modal-header h4 span').text('编辑单项比赛学生报名');
 	    addDialog.modal('toggle');
 	    addForm.fill(row);
 	    $("#categoryId").combotree('val',row.categoryId);
+	    $('#groupTypeSel').combo('val',row.groupType);
+	    $('#gradeNameSel').combo('val',row.gradeName);
     });
     
 	//保存
@@ -140,31 +163,72 @@ handleVForm=function(vForm,submitCallBackfn){
         onkeyup:false,
         ignore: '', 
         messages: {
+        	categoryId:{
+        		required:'请选择报名项目',
+        		rangelength:jQuery.validator.format('项目名称长度为{0}和{1}字符之间')
+        	},
         	studentName:{
         		required:'请输入学生姓名',
-        		rangelength:jQuery.validator.format('学生姓名长度为{0}和{1}字符之间')
+        		rangelength:jQuery.validator.format('学生姓名长度为{0}和{1}字符之间'),
+        		remote:'该学生姓名已存在，请输入其它姓名'
         	},
+        	groupType:{
+        		required:'请选择组别',
+        		rangelength:jQuery.validator.format('组别长度为{0}和{1}字符之间')
+        	},      
+        	gradeName:{
+        		required:'请选择年级',
+        		rangelength:jQuery.validator.format('年级长度为{0}和{1}字符之间')
+        	}, 
         	showName:{
-        		required:'请输入节目名称',
-        		rangelength:jQuery.validator.format('节目名称长度为{0}和{1}字符之间')
-        	},
-        	mobile:{
-        		required:'请输入学生/家长手机号',
-        		rangelength:jQuery.validator.format('手机号长度为{0}和{1}字符之间')
+        		required:'请输入作品名称',
+        		rangelength:jQuery.validator.format('作品名称长度为{0}和{1}字符之间')
         	},
         	tutor:{
 	            required:'请输入指导老师姓名',
 	            rangelength:jQuery.validator.format('指导老师姓名为{0}和{1}字符之间'),
         	},
-        	
-        	insuredName:{
-	            required:'请输入学生姓名',
-	            rangelength:jQuery.validator.format('被保人姓名长度为{0}和{1}字符之间'),
-	            remote:'该学生已存在，请输入其它姓名'
+        	className:{
+	            required:'请输入学校联系人',
+	            rangelength:jQuery.validator.format('指导老师姓名为{0}和{1}字符之间'),
+        	},
+        	mobile:{
+	            required:'请输入联系人手机',
+	            rangelength:jQuery.validator.format('指导老师姓名为{0}和{1}字符之间'),
         	}
         },
         rules: {
-        	studentName: {
+        	categoryId:{            	
+              	 required:true,
+              	 remote:{
+                    url:'checklastlevel.htm', //后台处理程序
+                    type: 'post',               //数据发送方式
+                    dataType: 'json',           //接受数据格式   
+                    data: {                     //要传递的数据
+                       categoryId: function() {                    	   
+                    	   return $('#categoryId').val();
+                       }
+                    }
+              	 }
+            },
+            studentName:{
+                required:true,                
+	            /*remote:{
+	                url:'checkStudentName.htm', //后台处理程序
+	                type: 'post',               //数据发送方式
+	                dataType: 'json',           //接受数据格式   
+	                data: {                     //要传递的数据
+	                	studentName: function() {      	                
+	                	   return $('#studentName').val();
+	                   }
+	                }
+	          	 }*/
+            },
+            groupType: {
+                required:true,
+                rangelength:[1,128]
+            },
+            gradeName: {
                 required:true,
                 rangelength:[1,128]
             },
@@ -172,14 +236,19 @@ handleVForm=function(vForm,submitCallBackfn){
                 required:true,
                 rangelength:[1,128]
             },
+            tutor:{
+                required: true,
+                rangelength:[1,20],
+            },
+            className:{
+                required: true,
+                rangelength:[1,20],
+            },
             mobile: {
                 required:true,
                 rangelength:[1,11]
             },
-            tutor:{
-                required: true,
-                rangelength:[1,20],
-           },
+            
             insuredName:{
               required: true,
                 rangelength:[1,128],

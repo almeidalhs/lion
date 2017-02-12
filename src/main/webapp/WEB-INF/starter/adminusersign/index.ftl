@@ -97,7 +97,7 @@
 				</a>
 			</div>
 			<div class="col-md-12">
-				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_adminusersign_tb" data-singleselect="true",   data-loadUrl="${base}/adminuserSign/list.json" data-checkbox="true" data-pageSize="10">
+				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_adminusersign_tb" data-singleselect="true",   data-loadUrl="${base}/adminuserSign/list.json" data-checkbox="true" data-pageSize="30">
 					<thead>
 						<tr>
 							<th class="table-checkbox" data-field='id' data-checkbox="true">
@@ -115,11 +115,17 @@
 							<th data-field="showName" style="width:100px;">
 							 	<@spring.message "sys.usersign.html.showname"/>
 							</th>
-							<th data-field="category.categoryName" style="width:30px;">
+							<th data-field="examUserName" style="width:30px;">
 							 	<@spring.message "sys.usersign.html.category"/>
 							</th>
 							<th data-field="groupType" style="width:30px;">
 							 	<@spring.message "sys.usersign.html.group"/>
+							</th>
+							<th data-field="tutor" style="width:45px;">
+							 	指导老师1
+							</th>							
+							<th data-field="tutor2" style="width:45px;">
+							 	指导老师2
 							</th>
 							<th data-field="status" style="width:50px;" data-formatter="formatterEidtable">
 							 	<@spring.message "sys.usersign.html.status" />

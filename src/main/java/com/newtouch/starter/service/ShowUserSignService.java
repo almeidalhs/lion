@@ -13,7 +13,11 @@ public interface ShowUserSignService {
 	 */
 	public PageResult<ShowUserSign>  doFindByCriteria(QueryCriteria queryCriteria);
 	
+	public PageResult<ShowUserSign> doSearchByCriteria(QueryCriteria criteria);
+	
 	public PageResult<ShowUserSign> doFindByCriteriaAdmin(QueryCriteria criteria);
+	
+	public PageResult<ShowUserSign> doFindByCriteriaByCategoryAndSchool(QueryCriteria criteria);
 	/**
 	 * 根据id查询UserSign并返回用户报名对象
 	 * @param id

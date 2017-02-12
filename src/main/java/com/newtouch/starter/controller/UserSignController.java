@@ -1,14 +1,14 @@
 package com.newtouch.starter.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.newtouch.lion.common.date.DateUtil;
-import com.newtouch.lion.common.file.FileUtil;
 import com.newtouch.lion.common.user.UserInfo;
 import com.newtouch.lion.data.DataTable;
 import com.newtouch.lion.model.datagrid.DataGrid;
@@ -39,66 +37,87 @@ import com.newtouch.lion.web.model.QueryDt;
 import com.newtouch.lion.web.servlet.view.support.BindMessage;
 import com.newtouch.lion.web.servlet.view.support.BindResult;
 import com.newtouch.lion.web.shiro.session.LoginSecurityUtil;
+import com.newtouch.starter.category.Category;
+import com.newtouch.starter.service.CategoryService;
+import com.newtouch.starter.service.UserExtService;
 import com.newtouch.starter.service.UserSignService;
+import com.newtouch.starter.userext.UserExt;
 import com.newtouch.starter.usersign.UserSign;
 import com.newtouch.starter.usersign.UserSignVo;
 
-
 @Controller
 @RequestMapping("/userSign/")
-public class UserSignController  extends AbstractController{
+public class UserSignController extends AbstractController {
 	private final Logger logger = LoggerFactory.getLogger(super.getClass());
-	/** 参数首页 */
 	private static final String INDEX_RETURN = "/userSign/index";
 	private static final String STEP1_RETURN = "/userSign/step1";
 	private static final String STEP2_RETURN = "/userSign/step2";
 	private static final String LAW_RETURN = "/userSign/lawindex";
+	private static final String LAW_RETURN2 = "/userSign/lawindex2";
+	private static final String LAW_RETURN3 = "/userSign/lawindex3";
+	private static final String LAW_RETURN4 = "/userSign/lawindex4";
+	private static final String LAW_RETURN5 = "/userSign/lawindex5";
+	private static final String LAW_RETURN6 = "/userSign/lawindex6";
 	
 	/** 默认排序字段名称 */
 	private static final String DEFAULT_ORDER_FILED_NAME = "id";
 	
 	@SuppressWarnings("unused")
 	private static final String INDEX_LISTS_TB = "sys_userSign_lists";	 
-	/**部门扩展*/
+
 	@Autowired
-	private UserSignService  userSignService;
-	
+	private UserSignService userSignService;
+
 	@Autowired
-	private UserService  userService;
-	/**Excel通用导出*/
+	private UserExtService userExtService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private CategoryService categoryService;
+
 	@Autowired
 	private ExcelExportService excelExportService;
-	/**DataGrid表格*/
+
 	@Autowired
 	private DataGridService dataGridService;
 
-	@RequestMapping(value = "add")
+	@RequestMapping("add")
 	@ResponseBody
 	public ModelAndView add(
 			@Valid @ModelAttribute("userSignVo") UserSignVo userSignVo,
 			Errors errors, ModelAndView modelAndView) {
 		if (errors.hasErrors()) {
 			modelAndView.addObject(BindMessage.ERRORS_MODEL_KEY, errors);
-			return this.getJsonView(modelAndView);
+			return getJsonView(modelAndView);
 		}
-		UserSign userSign = new UserSign();
-		
-		//Subject currentUser=SecurityUtils.getSubject();
 		UserInfo userInfo = LoginSecurityUtil.getUser();
-		User user = userService.doFindById(userInfo.getId());
+		UserSign userSign = new UserSign();
+		UserSign checkUserSign = this.userSignService.findSignByStudent(userSignVo.getStudentName(), userInfo.getId());
+		if (checkUserSign!=null) {
+			errors.reject(null, "学生姓名不能重复");
+			modelAndView.addObject(BindMessage.ERRORS_MODEL_KEY, errors);
+			return getJsonView(modelAndView);
+		}
+		
+		User user = this.userService.doFindById(userInfo.getId());
 		userSignVo.setAreaType(user.getDepartment().getNameZh());
-		//User user = userService.doFindById(userInfo.getId());
+
 		userSignVo.setSchUserId(userInfo.getId());
 		userSignVo.setSchoolName(userInfo.getRealnameZh());
 		BeanUtils.copyProperties(userSignVo, userSign);
+		Category topCategory = this.categoryService.doFindTopLevel(userSignVo
+				.getCategoryId());
+		userSign.setTopCategoryId(topCategory.getId());
 		this.userSignService.doCreate(userSign);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(BindResult.SUCCESS, ConstantMessage.ADD_SUCCESS_MESSAGE_CODE);
 		modelAndView.addObject(BindMessage.SUCCESS, params);
-		return this.getJsonView(modelAndView);
+		return getJsonView(modelAndView);
 	}
 
-	@RequestMapping(value = "edit")
+	@RequestMapping("edit")
 	@ResponseBody
 	public ModelAndView edit(
 			@Valid @ModelAttribute("userSignVo") UserSignVo userSignVo,
@@ -116,25 +135,31 @@ public class UserSignController  extends AbstractController{
 
 		if (errors.hasErrors()) {
 			modelAndView.addObject(BindMessage.ERRORS_MODEL_KEY, errors);
-			return this.getJsonView(modelAndView);
+			return getJsonView(modelAndView);
 		}
 		UserInfo userInfo = LoginSecurityUtil.getUser();
-		//User user = userService.doFindById(userInfo.getId());
-	
+		User user = this.userService.doFindById(userInfo.getId());
+		userSignVo.setAreaType(user.getDepartment().getNameZh());
+
+		userSignVo.setSchUserId(userInfo.getId());
+		userSignVo.setSchoolName(userInfo.getRealnameZh());
 		BeanUtils.copyProperties(userSignVo, userSign);
-		userSign.setSchUserId(userInfo.getId());
+
+		Category topCategory = this.categoryService.doFindTopLevel(userSignVo
+				.getCategoryId());
+		userSign.setTopCategoryId(topCategory.getId());
 		this.userSignService.doUpdate(userSign);
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(BindResult.SUCCESS,
 				ConstantMessage.EDIT_SUCCESS_MESSAGE_CODE);
 		modelAndView.addObject(BindMessage.SUCCESS, params);
-		return this.getJsonView(modelAndView);
+		return getJsonView(modelAndView);
 	}
 
-	@RequestMapping(value = "delete")
+	@RequestMapping("delete")
 	@ResponseBody
 	public ModelAndView delete(@RequestParam Long id, ModelAndView modelAndView) {
-		logger.info("delete id:{}",id);
+		this.logger.info("delete id:{}", id);
 		Map<String, String> params = new HashMap<String, String>();
 		int userSign = this.userSignService.doDeleteById(id);
 		if (userSign != 0) {
@@ -145,113 +170,234 @@ public class UserSignController  extends AbstractController{
 					ConstantMessage.DELETE_FAIL_MESSAGE_CODE);
 		}
 		modelAndView.addObject(BindMessage.SUCCESS, params);
-		return this.getJsonView(modelAndView);
+		return getJsonView(modelAndView);
 	}
-	
+
 	@RequestMapping("list")
 	@ResponseBody
-	public  DataTable<UserSign> list(QueryDt query,@ModelAttribute("userSign") UserSignVo userSignVo) {			
+	public DataTable<UserSign> list(QueryDt query,
+			@ModelAttribute("userSign") UserSignVo userSignVo) {
 		QueryCriteria queryCriteria = new QueryCriteria();
-		// 设置分页 启始页
-		queryCriteria.setStartIndex(query.getPage());
-		// 每页大小
-		queryCriteria.setPageSize(query.getRows());
-		// 设置排序字段及排序方向
-		if (StringUtils.isNotEmpty(query.getSort()) && StringUtils.isNotEmpty(query.getOrder())) {
+
+		queryCriteria.setStartIndex(query.getPage().intValue());
+
+		queryCriteria.setPageSize(query.getRows().intValue());
+
+		if ((StringUtils.isNotEmpty(query.getSort()))
+				&& (StringUtils.isNotEmpty(query.getOrder()))) {
 			queryCriteria.setOrderField(query.getSort());
 			queryCriteria.setOrderDirection(query.getOrder());
 		} else {
 			queryCriteria.setOrderField(DEFAULT_ORDER_FILED_NAME);
-			queryCriteria.setOrderDirection(QueryCriteria.ASC);
-		}
-		
-		//查询条件 名称按模糊查询
-		if(StringUtils.isNotEmpty(userSignVo.getStudentName())){
-			queryCriteria.addQueryCondition("studentName","%"+userSignVo.getStudentName()+"%");
-		}
-		if(userSignVo.getCategoryId()!=null){
-			queryCriteria.addQueryCondition("categoryId","%"+userSignVo.getCategoryId()+"%");
+			queryCriteria.setOrderDirection("ASC");
 		}
 		UserInfo userInfo = LoginSecurityUtil.getUser();
+
 		queryCriteria.addQueryCondition("schUserId", userInfo.getId());
-		PageResult<UserSign> pageResult = userSignService.doFindByCriteria(queryCriteria);
-		return pageResult.getDataTable(query.getRequestId());
+		PageResult<UserSign> pageResult = null;
+
+		if (StringUtils.isNotEmpty(userSignVo.getStudentName())) {
+			queryCriteria.addQueryCondition("studentName",
+					"%" + userSignVo.getStudentNameSearch() + "%");
+			queryCriteria.addQueryCondition("showName",
+					"%" + userSignVo.getStudentNameSearch() + "%");
+			queryCriteria.addQueryCondition("categoryName",
+					"%" + userSignVo.getStudentNameSearch() + "%");
+			pageResult = this.userSignService.doSearchByCriteria(queryCriteria);
+		} else {
+			pageResult = this.userSignService.doSearchByCriteria(queryCriteria);
+		}
+
+		List<UserSign> userSignList = pageResult.getContent();
+		List<UserSign> fullUserList = new ArrayList<UserSign>();
+		for (UserSign userSign:userSignList) {
+			Category category = userSign.getCategory();
+			if (category == null) {
+				continue;
+			}
+			String fullName = getCategoryFullName(category.getId());
+			userSign.setExamUserName(fullName);
+			fullUserList.add(userSign);
+		}
+		pageResult.setContent(fullUserList);
+
+		return pageResult.getDataTable(query.getRequestId().intValue());
 	}
-	/****
-	 * 
-	 * @param tableId
-	 * @param parameterVo
-	 * @param modelAndView
-	 * @return
-	 */
-	@RequestMapping(value = "export")
+
+	@RequestMapping("getjoinnum")
 	@ResponseBody
-	public ModelAndView exportExcel(@RequestParam(required=false) String tableId,@RequestParam(required = false) String sort,@RequestParam(required = false) String order,@ModelAttribute("userSign") UserSignVo userSignVo,ModelAndView modelAndView){
-				
-		DataGrid dataGrid=dataGridService.doFindByTableIdAndSort(tableId);
-		QueryCriteria queryCriteria=new QueryCriteria();
+	public Integer checkIsExistByNameEn(HttpServletRequest servletRequest) {
+		UserInfo userInfo = LoginSecurityUtil.getUser();
+		return Integer.valueOf(getUserJoinNum(userInfo.getId()));
+	}
+
+	private int getUserJoinNum(Long bas_user_id) {
+		UserExt userExt = this.userExtService.doFindByUserId(bas_user_id);
+		if (userExt != null) {
+			return userExt.getJoin_num().intValue();
+		}
+		return 0;
+	}
+
+	@RequestMapping("checklastlevel")
+	@ResponseBody
+	public String checkLastLevel(HttpServletRequest servletRequest,
+			@RequestParam Long categoryId) {
+		Category category = this.categoryService.doFindSelfParent(categoryId);
+		Boolean flag = Boolean.valueOf(true);
+		if (category == null) {
+			return flag.toString();
+		}
+		flag = Boolean.valueOf(false);
+
+		return flag.toString();
+	}
+
+	@RequestMapping("checkStudentName")
+	@ResponseBody
+	public String checkStudentName(HttpServletRequest servletRequest,
+			@RequestParam String studentName) {
+		UserInfo userInfo = LoginSecurityUtil.getUser();
+		UserSign userSign = this.userSignService.findSignByStudent(studentName,
+				userInfo.getId());
+		Boolean flag = Boolean.valueOf(true);
+		if (userSign == null) {
+			return flag.toString();
+		}
+		flag = Boolean.valueOf(false);
+
+		return flag.toString();
+	}
+
+	@RequestMapping("export")
+	@ResponseBody
+	public ModelAndView exportExcel(
+			@RequestParam(required = false) String tableId,
+			@RequestParam(required = false) String sort,
+			@RequestParam(required = false) String order,
+			@ModelAttribute("userSign") UserSignVo userSignVo,
+			ModelAndView modelAndView) {
+		DataGrid dataGrid = this.dataGridService
+				.doFindByTableIdAndSort(tableId);
+		QueryCriteria queryCriteria = new QueryCriteria();
 		queryCriteria.setPageSize(10000);
-		// 设置排序字段及排序方向
-		if (StringUtils.isNotEmpty(sort) && StringUtils.isNotEmpty(order)) {
+
+		if ((StringUtils.isNotEmpty(sort)) && (StringUtils.isNotEmpty(order))) {
 			queryCriteria.setOrderField(sort);
 			queryCriteria.setOrderDirection(order);
 		} else {
 			queryCriteria.setOrderField(DEFAULT_ORDER_FILED_NAME);
 			queryCriteria.setOrderDirection("ASC");
 		}
-		//查询条件 中文参数名称按模糊查询
-		if(StringUtils.isNotEmpty(userSignVo.getStudentName())){
-			queryCriteria.addQueryCondition("studentName","%"+userSignVo.getStudentName()+"%");
+
+		if (StringUtils.isNotEmpty(userSignVo.getStudentName())) {
+			queryCriteria.addQueryCondition("studentName",
+					"%" + userSignVo.getStudentName() + "%");
 		}
-		queryCriteria.addQueryCondition("status",1);
-		//查询保单
+		//queryCriteria.addQueryCondition("status", Integer.valueOf(1));
+
 		UserInfo userInfo = LoginSecurityUtil.getUser();
 		queryCriteria.addQueryCondition("schUserId", userInfo.getId());
-		PageResult<UserSign> result=userSignService.doFindByCriteria(queryCriteria);
-		
+		PageResult<UserSign> result = this.userSignService
+				.doFindByCriteria(queryCriteria);
+
 		Map<String, Map<Object, Object>> fieldCodeTypes = new HashMap<String, Map<Object, Object>>();
 
-		Map<String, String> dataFormats = new HashMap<String, String>();		
-		dataFormats.put("birthday", DateUtil.FORMAT_DATE_YYYY_MM_DD);
-		//创建.xls的文件名
-		String fileName=this.createFileName(FileUtil.EXCEL_EXTENSION);
-		
+		Map<String, String> dataFormats = new HashMap<String, String>();	
+		dataFormats.put("birthday", "yyyy-MM-dd");
+
+		String fileName = createFileName(".xls");
+
 		modelAndView.addObject("title", dataGrid.getTitle());
-		
-		Long startTime=System.currentTimeMillis();
-		
-		fileName=excelExportService.export(dataGrid, result.getContent(), fileName, fieldCodeTypes, dataFormats);
-		
-		logger.info("fileName:{}",fileName);
-		
-		Long costTime=System.currentTimeMillis()-startTime;
-		
-		modelAndView.addObject(FILENAME,fileName);
-		
-		logger.info("export Excel {} cost:{} time,fileName:{}",dataGrid.getTitle(),costTime,fileName);
-		logger.info("out Excel导出");
-		return this.getExcelView(modelAndView);
+
+		Long startTime = Long.valueOf(System.currentTimeMillis());
+
+		fileName = this.excelExportService.export(dataGrid,
+				result.getContent(), fileName, fieldCodeTypes, dataFormats);
+
+		this.logger.info("fileName:{}", fileName);
+
+		Long costTime = Long.valueOf(System.currentTimeMillis()
+				- startTime.longValue());
+
+		modelAndView.addObject("fileName", fileName);
+
+		this.logger.info("export Excel {} cost:{} time,fileName:{}",
+				new Object[] { dataGrid.getTitle(), costTime, fileName });
+		this.logger.info("out Excel导出");
+		return getExcelView(modelAndView);
 	}
-	
-	@RequestMapping(value = "index")
+
+	@RequestMapping("index")
 	public String index(HttpServletRequest servletRequest, Model model) {
 		return INDEX_RETURN;
 	}
-	
-	@RequestMapping(value = "lawindex")
+
+	@RequestMapping("lawindex")
 	public String lawindex(HttpServletRequest servletRequest, Model model) {
 		return LAW_RETURN;
 	}
-	
-	@RequestMapping(value = "step1")
+
+	@RequestMapping("lawindex2")
+	public String lawindex2(HttpServletRequest servletRequest, Model model) {
+		return LAW_RETURN2;
+	}
+
+	@RequestMapping("lawindex3")
+	public String lawindex3(HttpServletRequest servletRequest, Model model) {
+		return LAW_RETURN3;
+	}
+
+	@RequestMapping("lawindex4")
+	public String lawindex4(HttpServletRequest servletRequest, Model model) {
+		return LAW_RETURN4;
+	}
+
+	@RequestMapping("lawindex5")
+	public String lawindex5(HttpServletRequest servletRequest, Model model) {
+		return LAW_RETURN5;
+	}
+
+	@RequestMapping("lawindex6")
+	public String lawindex6(HttpServletRequest servletRequest, Model model) {
+		return LAW_RETURN6;
+	}
+
+	@RequestMapping("step1")
 	public String step1(HttpServletRequest servletRequest, Model model) {
 		return STEP1_RETURN;
 	}
-	
-	@RequestMapping(value = "step2")
+
+	@RequestMapping("step2")
 	public String step2(HttpServletRequest servletRequest, Model model) {
 		String matchType = servletRequest.getParameter("matchType");
 		model.addAttribute("matchType", matchType);
 		return STEP2_RETURN;
+	}
+
+	private String getCategoryFullName(Long categoryId) {
+		String fullCategoryName = "";
+		Category category = this.categoryService.doFindCategoryById(categoryId);
+		if (category != null) {
+			fullCategoryName = category.getCategoryName();
+			if (category.getpCategoryId().longValue() != 0L) {
+				Category parentCategory = this.categoryService
+						.doFindCategoryById(category.getpCategoryId());
+				if (parentCategory != null) {
+					fullCategoryName = parentCategory.getCategoryName() + "-"
+							+ fullCategoryName;
+					if (parentCategory.getpCategoryId().longValue() != 0L) {
+						Category topCategory = this.categoryService
+								.doFindCategoryById(parentCategory
+										.getpCategoryId());
+						if (topCategory != null) {
+							fullCategoryName = topCategory.getCategoryName()
+									+ "-" + fullCategoryName;
+						}
+					}
+				}
+			}
+		}
+		return fullCategoryName;
 	}
 }

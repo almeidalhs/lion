@@ -94,4 +94,20 @@ public interface CategoryService {
 	 * @return Map<Object,Object>
 	 */
 	public Map<Object,Object> doFindCategoryAll();
+	
+	/**
+	 * 获取父类的category对象
+	 * @param id
+	 * @return
+	 */
+	public Category doFindParentLevel(Long id);
+	
+	/**
+	 * 获取最顶层的category对象
+	 * @param id
+	 * @return
+	 */
+	public Category doFindTopLevel(Long id);
+	
+	public Category doFindSelfParent(Long id);
 }

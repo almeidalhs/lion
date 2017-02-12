@@ -9,7 +9,8 @@ Theme Colors
 Body bg color
 ***********/
 body {
-  background: #e9ecf3;
+  /*background: #e9ecf3;*/
+  background-image: url(../../img/bg.png);
   font-family:Microsoft YaHei;
 }
 

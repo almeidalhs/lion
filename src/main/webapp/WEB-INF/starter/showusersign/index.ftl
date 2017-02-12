@@ -52,7 +52,7 @@
 					</label>
 
 					<div class="col-md-3">
-						<input class="form-control input-medium" type="text" size="50" name="showName" id="studentName"  placeholder="请输入搜索信息"  />					
+						<input class="form-control input-medium" type="text" size="50" name="studentName" id="studentName"  placeholder="请输入搜索信息"  />					
 					</div>
 					
 					<div class="col-md-2">
@@ -65,7 +65,7 @@
 			</div>
 		
 			<div class="col-md-12 margin-bottom-10" id="toolbar">
-				<a id="btnAdd" class="btn btn-sm yellow" data-toggle="modal" href="#basic">
+				<a id="btnAdd" class="btn btn-sm yellow">
 					<i class="fa fa-plus"></i> 
 					  点击报名
 				</a>&nbsp;&nbsp;&nbsp;
@@ -87,17 +87,26 @@
 				</a>
 			</div>
 			<div class="col-md-12">
-				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_showusersign_tb" data-singleselect="true",   data-loadUrl="${base}/showUserSign/list.json" data-checkbox="true" data-pageSize="10">
+				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_showusersign_tb" data-singleselect="true",   data-loadUrl="${base}/showUserSign/list.json" data-checkbox="true" data-pageSize="30">
 					<thead>
 						<tr>
 							<th class="table-checkbox" data-field='id' data-checkbox="true">
 						 		<input type="checkbox" class="group-checkable" data-set="#sys_showusersign_tb.checkboxes"  data-sortable="false" />
 						 	</th>	
+						 	<th data-field="areaType" style="width:50px;">
+							 	所属教育署
+							</th>
+							<th data-field="schoolName" style="width:50px;">
+							 	学校名称
+							</th>
 						 	<th data-field="category.categoryName" style="width:50px;">
 							 	展演项目
 							</th>			
 							<th data-field="showName" style="width:90px;">
 							 	节目/作品名称
+							</th>
+							<th data-field="examUserName" style="width:80px;">
+							 	节目/作品类型
 							</th>	
 							<th data-field="groupType" style="width:40px;">
 							 	组别
@@ -177,18 +186,30 @@
 												</div>
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-													 组别
+													 节目/作品类型
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
-															 <select  id="groupType" name="groupType"  placeholder="展演组别.."  
-														 	class="lion-combo form-control select2" data-valueField='codeValue' 
-														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=zygroup">
+															 <select  id="examUserNameSel" name="examUserName"  placeholder="创作/改编/学习"  
+														 	class="lion-combo form-control select2" data-valueField='codeValue'  value=""
+														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=cgx">
 														 </select>
 														</div>
 													</div>
 												</div>
-												
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+													 组别
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															 <select  id="groupTypeSel" name="groupType"  placeholder="展演组别.."  
+														 	class="lion-combo form-control select2" data-valueField='codeValue'  data-textField='nameZh'
+														 	 data-URL="${base}/system/code/combox.htm?nameEn=zygroup">
+														 </select>
+														</div>
+													</div>
+												</div>
 												<div class="form-group">
 													<label class="col-md-3 control-label">
 													 人数
@@ -205,8 +226,8 @@
 													</label>
 													<div class="col-md-5">
 														<div nowrap><p>
-															<input type="text"  id="minute" name="minute" size="5"/>&nbsp;分
-															<input type="text"  id="second" name="second" size="5"/>&nbsp;秒
+															<input type="text"  id="minuteid" name="minute" size="5"/>&nbsp;分
+															<input type="text"  id="secondid" name="second" size="5"/>&nbsp;秒
 															</p>
 														</div>
 													</div>
@@ -222,16 +243,7 @@
 														</div>
 													</div>
 												</div>
-												<div class="form-group">
-													<label class="col-md-3 control-label">
-														节目联系人手机
-													</label>
-													<div class="col-md-5">
-														<div class="input-group">
-															<input type="text"  id="mobile" name="mobile" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.mobile"/>" size="30"/>
-														</div>
-													</div>
-												</div>
+												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
 														指导老师2
@@ -252,7 +264,16 @@
 														</div>
 													</div>
 												</div>
-																							
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														节目联系人手机
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="mobile" name="mobile" maxlength="100" class="form-control" placeholder="节目联系人手机" size="30"/>
+														</div>
+													</div>
+												</div>										
 											</div>
 										</form>
 								<!-- END FORM-->

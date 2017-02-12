@@ -3868,7 +3868,8 @@ Portlets
 /* Light Portlet */
 .portlet.light {
   padding: 12px 20px 15px 20px;
-  background-color: #fff;
+  /**background-color: #fff;**/
+  background-image: url(../../admin/layout4/img/bgcontent.png);
 }
 .portlet.light.bordered {
   border: 1px solid #e1e1e1 !important;
@@ -3964,6 +3965,7 @@ Portlets
   margin-bottom: 0;
 }
 .portlet.light .portlet-body {
+  
   padding-top: 8px;
 }
 .portlet.light.portlet-fullscreen > .portlet-body {
@@ -4680,7 +4682,7 @@ Responsive & Scrollable Tables
   width: 100% !important;
   margin: 0 !important;
   margin-bottom: 0;
-  background-color: #fff;
+  background-color: #ffffcc;
 }
 .table-scrollable > .table > thead > tr > th,
 .table-scrollable > .table > tbody > tr > th,

@@ -46,9 +46,56 @@ public class ShowUserSignServiceImpl extends AbstractService implements ShowUser
 	}
 	
 	@Override
+	public PageResult<ShowUserSign> doSearchByCriteria(QueryCriteria criteria) {
+		String queryEntry = " from ShowUserSign ";
+		String[] whereBodies = {"category.categoryName like :categoryName or studentName like :studentName or showName like :showName", "schUserId = :schUserId"};
+		
+		String fromJoinSubClause = "";
+		
+		Map<String, Object> params = criteria.getQueryCondition();
+		
+		String orderField = criteria.getOrderField();
+		
+		String orderDirection = criteria.getOrderDirection();
+		
+		String hql = HqlUtils.generateHql(queryEntry, fromJoinSubClause, whereBodies, orderField, orderDirection, params);
+		System.out.println("查询语句："+hql);
+		
+		int pageSize = criteria.getPageSize();
+		
+		int startIndex = criteria.getStartIndex();
+		PageResult<ShowUserSign> pageResult = this.userSignDao.query(hql, HqlUtils.generateCountHql(hql, null), params, startIndex, pageSize);
+		return pageResult;
+	}
+	
+	
+	@Override
 	public PageResult<ShowUserSign> doFindByCriteriaAdmin(QueryCriteria criteria) {
 		String queryEntry = " from ShowUserSign ";
-		String[] whereBodies = {"category.categoryName like :categoryName", "showName like :showName", "schoolName like :schoolName", "areaType like :areaType"};
+		String[] whereBodies = {"category.categoryName like :categoryName", "showName like :showName", "schoolName like :schoolName", "areaType like :areaType", "status = :status"};
+		
+		String fromJoinSubClause = "";
+		
+		Map<String, Object> params = criteria.getQueryCondition();
+		
+		String orderField = criteria.getOrderField();
+		
+		String orderDirection = criteria.getOrderDirection();
+		
+		String hql = HqlUtils.generateHql(queryEntry, fromJoinSubClause, whereBodies, orderField, orderDirection, params);
+		System.out.println("查询语句："+hql);
+		
+		int pageSize = criteria.getPageSize();
+		
+		int startIndex = criteria.getStartIndex();
+		PageResult<ShowUserSign> pageResult = this.userSignDao.query(hql, HqlUtils.generateCountHql(hql, null), params, startIndex, pageSize);
+		return pageResult;
+	}
+	
+	@Override
+	public PageResult<ShowUserSign> doFindByCriteriaByCategoryAndSchool(QueryCriteria criteria) {
+		String queryEntry = " from ShowUserSign ";
+		String[] whereBodies = {"categoryId = :categoryId", "schUserId = :schUserId"};
 		
 		String fromJoinSubClause = "";
 		

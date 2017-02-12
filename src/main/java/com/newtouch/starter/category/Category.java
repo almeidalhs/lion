@@ -38,6 +38,8 @@ public class Category extends VersionEntity<Long> implements Serializable {
 	private int isChild;
 	private int categoryType;
 	
+	
+	
 	/** 部门父子对象 */
 	private Category category;
 	
@@ -121,6 +123,7 @@ public class Category extends VersionEntity<Long> implements Serializable {
 	public void setCategoryType(int categoryType) {
 		this.categoryType = categoryType;
 	}
+	
 	 
 
 }

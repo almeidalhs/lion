@@ -1,14 +1,14 @@
 package com.newtouch.starter.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,12 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.newtouch.lion.common.date.DateUtil;
 import com.newtouch.lion.common.file.FileUtil;
-import com.newtouch.lion.common.user.UserInfo;
 import com.newtouch.lion.data.DataTable;
 import com.newtouch.lion.model.datagrid.DataGrid;
-import com.newtouch.lion.model.system.User;
 import com.newtouch.lion.page.PageResult;
 import com.newtouch.lion.query.QueryCriteria;
 import com.newtouch.lion.service.datagrid.DataGridService;
@@ -38,9 +35,11 @@ import com.newtouch.lion.web.controller.AbstractController;
 import com.newtouch.lion.web.model.QueryDt;
 import com.newtouch.lion.web.servlet.view.support.BindMessage;
 import com.newtouch.lion.web.servlet.view.support.BindResult;
-import com.newtouch.lion.web.shiro.session.LoginSecurityUtil;
+import com.newtouch.starter.category.Category;
+import com.newtouch.starter.service.CategoryService;
 import com.newtouch.starter.service.UserSignService;
 import com.newtouch.starter.usersign.UserSign;
+import com.newtouch.starter.usersign.UserSignExcel;
 import com.newtouch.starter.usersign.UserSignVo;
 
 
@@ -68,7 +67,9 @@ public class AdminUserSignController  extends AbstractController{
 	/**DataGrid表格*/
 	@Autowired
 	private DataGridService dataGridService;
-
+	
+	@Autowired
+	private CategoryService categoryService;
 	
 
 	@RequestMapping(value = "pass")
@@ -154,8 +155,10 @@ public class AdminUserSignController  extends AbstractController{
 		if(StringUtils.isNotEmpty(userSignVo.getShowName())){
 			queryCriteria.addQueryCondition("showName","%"+userSignVo.getShowName()+"%");
 		}
+		String categoryName = userSignVo.getCategoryName();
+		
 		if(StringUtils.isNotEmpty(userSignVo.getCategoryName())){
-			queryCriteria.addQueryCondition("categoryName","%"+userSignVo.getCategoryName()+"%");
+			queryCriteria.addQueryCondition("categoryName","%"+categoryName+"%");
 		}
 		if(StringUtils.isNotEmpty(userSignVo.getAreaType())){
 			queryCriteria.addQueryCondition("areaType","%"+userSignVo.getAreaType()+"%");
@@ -166,6 +169,19 @@ public class AdminUserSignController  extends AbstractController{
 		/*UserInfo userInfo = LoginSecurityUtil.getUser();
 		queryCriteria.addQueryCondition("schUserId", userInfo.getId());*/
 		PageResult<UserSign> pageResult = userSignService.doFindByCriteriaAdmin(queryCriteria);
+		
+		List<UserSign> userSignList = pageResult.getContent();
+		List<UserSign> fullUserList = new ArrayList<UserSign>();
+		for (UserSign userSign : userSignList) {
+			Category category = userSign.getCategory();
+			if (category==null) {
+				continue;
+			}
+			String fullName = getCategoryFullName(category.getId());
+			userSign.setExamUserName(fullName);
+			fullUserList.add(userSign);
+		}
+		pageResult.setContent(fullUserList);
 		return pageResult.getDataTable(query.getRequestId());
 	}
 	/****
@@ -190,17 +206,45 @@ public class AdminUserSignController  extends AbstractController{
 			queryCriteria.setOrderField(DEFAULT_ORDER_FILED_NAME);
 			queryCriteria.setOrderDirection("ASC");
 		}
-		//查询条件 中文参数名称按模糊查询
-		if(StringUtils.isNotEmpty(userSignVo.getStudentName())){
-			queryCriteria.addQueryCondition("studentName","%"+userSignVo.getStudentName()+"%");
+
+		// 查询条件 名称按模糊查询
+		if (StringUtils.isNotEmpty(userSignVo.getShowName())) {
+			queryCriteria.addQueryCondition("showName",
+					"%" + userSignVo.getShowName() + "%");
 		}
-		//查询保单
-		PageResult<UserSign> result=userSignService.doFindByCriteria(queryCriteria);
+		String categoryName = userSignVo.getCategoryName();
+
+		if (StringUtils.isNotEmpty(userSignVo.getCategoryName())) {
+			queryCriteria.addQueryCondition("categoryName", "%" + categoryName
+					+ "%");
+		}
+		if (StringUtils.isNotEmpty(userSignVo.getAreaType())) {
+			queryCriteria.addQueryCondition("areaType",
+					"%" + userSignVo.getAreaType() + "%");
+		}
+		if (StringUtils.isNotEmpty(userSignVo.getSchoolName())) {
+			queryCriteria.addQueryCondition("schoolName",
+					"%" + userSignVo.getSchoolName() + "%");
+		}
+
+		//queryCriteria.addQueryCondition("status", 1);
+		// 查询保单
+		PageResult<UserSign> result = userSignService
+				.doFindByCriteriaAdmin(queryCriteria);
 		
+		List<UserSign> userSignList = result.getContent();
+		List<UserSignExcel> userExcelList = new ArrayList<UserSignExcel>();
+		
+		for (UserSign userSign : userSignList) {
+			UserSignExcel userSignExcel = new UserSignExcel().getExcelInfo(userSign);
+			userSignExcel = this.getCategoryFreshUserSign(userSignExcel, userSign.getCategoryId());
+			userExcelList.add(userSignExcel);
+		}
+
 		Map<String, Map<Object, Object>> fieldCodeTypes = new HashMap<String, Map<Object, Object>>();
 
 		Map<String, String> dataFormats = new HashMap<String, String>();		
-		dataFormats.put("birthday", DateUtil.FORMAT_DATE_YYYY_MM_DD);
+
 		//创建.xls的文件名
 		String fileName=this.createFileName(FileUtil.EXCEL_EXTENSION);
 		
@@ -208,7 +252,7 @@ public class AdminUserSignController  extends AbstractController{
 		
 		Long startTime=System.currentTimeMillis();
 		
-		fileName=excelExportService.export(dataGrid, result.getContent(), fileName, fieldCodeTypes, dataFormats);
+		fileName=excelExportService.export(dataGrid, userExcelList, fileName, fieldCodeTypes, dataFormats);
 		
 		logger.info("fileName:{}",fileName);
 		
@@ -224,5 +268,49 @@ public class AdminUserSignController  extends AbstractController{
 	@RequestMapping(value = "index")
 	public String index(HttpServletRequest servletRequest, Model model) {
 		return INDEX_RETURN;
+	}
+	
+	private UserSignExcel getCategoryFreshUserSign(UserSignExcel userSignExcel, Long categoryId) {
+		Category category = categoryService.doFindCategoryById(categoryId);
+		if (category.getpCategoryId().longValue() == 0) {
+			userSignExcel.setCategoryName(category.getCategoryName());
+			return userSignExcel;
+		}
+		Category parentCategory = categoryService.doFindParentLevel(categoryId);
+		if (parentCategory!=null && parentCategory.getpCategoryId().longValue() == 0) {
+			userSignExcel.setCategoryName(parentCategory.getCategoryName());
+			userSignExcel.setCategoryType(category.getCategoryName());
+			return userSignExcel;
+		}
+		Category topCategory = categoryService.doFindTopLevel(categoryId);
+		if (topCategory!=null && topCategory.getpCategoryId().longValue() == 0) {
+			userSignExcel.setCategoryName(topCategory.getCategoryName());
+			userSignExcel.setSubCategoryName(parentCategory.getCategoryName());
+			userSignExcel.setCategoryType(category.getCategoryName());
+			return userSignExcel;
+		}
+		
+		return userSignExcel;
+	}
+	
+	private String getCategoryFullName(Long categoryId) {
+		String fullCategoryName = "";
+		Category category = categoryService.doFindCategoryById(categoryId);
+		if (category!=null) {
+			fullCategoryName = category.getCategoryName();	
+			if(category.getpCategoryId().longValue()!=0l){
+				Category parentCategory = categoryService.doFindCategoryById(category.getpCategoryId());
+				if (parentCategory!=null) {
+					fullCategoryName = parentCategory.getCategoryName() + "-" +fullCategoryName;	
+					if(parentCategory.getpCategoryId().longValue()!=0l){
+						Category topCategory = categoryService.doFindCategoryById(parentCategory.getpCategoryId());	
+						if (topCategory!=null){
+							fullCategoryName = topCategory.getCategoryName() + "-" +fullCategoryName;							
+						}
+					}					
+				}
+			}	
+		}
+		return fullCategoryName;
 	}
 }

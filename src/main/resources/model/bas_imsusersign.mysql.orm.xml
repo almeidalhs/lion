@@ -14,6 +14,9 @@
 				<column name="StuSign_ID" unique="true" nullable="false" precision="11" scale="0" />
 				<generated-value strategy="IDENTITY" />
 			</id>
+			<basic name="topCategoryId">
+				<column name="T_Category_ID" nullable="true" updatable="true"/>
+			</basic>
 			<basic name="categoryId">
 				<column name="Category_ID" nullable="true" updatable="true"/>
 			</basic>
@@ -71,9 +74,15 @@
 			<basic name="gradeName">
 				<column name="GradeName" length="20" nullable="true"/>
 			</basic>
+			<many-to-one name="categoryBean">
+				<join-column name="Category_ID"  insertable="false" updatable="false"/>
+			</many-to-one>
 			<many-to-one name="category">
 				<join-column name="Category_ID"  insertable="false" updatable="false"/>
-			</many-to-one>			
+			</many-to-one>		
+			<many-to-one name="tcategory">
+				<join-column name="T_Category_ID"  insertable="false" updatable="false"/>
+			</many-to-one>		
 		</attributes>
 	</entity>
 </entity-mappings>

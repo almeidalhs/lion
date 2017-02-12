@@ -411,9 +411,9 @@ function successEditFrm(result,args){
 //验证表单
 handleVForm=function(vForm,submitCallBackfn){
 	var addError = $('.alert-danger', vForm), addSuccess = $('.alert-success',vForm),context=lion.util.context;
-	var checkusernameUrl=context+'/system/useraccount/checkusername.json';
-	var checkEmployeeCodeUrl=context+'/system/useraccount/checkemployeecode.json';
-	var checkEmailUrl=context+'/system/useraccount/checkemail.json';
+	var checkusernameUrl=context+'/useraccount/checkusername.json';
+	var checkEmployeeCodeUrl=context+'/useraccount/checkemployeecode.json';
+	var checkEmailUrl=context+'/useraccount/checkemail.json';
 	vForm.validate({
         errorElement: 'span',
         errorClass: 'help-block help-block-error', 

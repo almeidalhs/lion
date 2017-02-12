@@ -91,7 +91,7 @@
 				</a>
 			</div>
 			<div class="col-md-12">
-				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_adminshowuserSign_tb" data-singleselect="true",   data-loadUrl="${base}/adminshowuserSign/list.json" data-checkbox="true" data-pageSize="10">
+				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_adminshowuserSign_tb" data-singleselect="true",   data-loadUrl="${base}/adminshowuserSign/list.json" data-checkbox="true" data-pageSize="30">
 					<thead>
 						<tr>
 							<th class="table-checkbox" data-field='id' data-checkbox="true">

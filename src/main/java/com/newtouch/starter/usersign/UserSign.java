@@ -3,13 +3,10 @@ package com.newtouch.starter.usersign;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.OneToOne;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -25,6 +22,7 @@ public class UserSign extends VersionEntity<Long> implements Serializable {
 	private static final long serialVersionUID = -4443301116973420744L;
 	
 	private Long id;
+	private Long topCategoryId;
 	private Long categoryId;
 	private Long schUserId;
 	private String studentName;
@@ -50,6 +48,11 @@ public class UserSign extends VersionEntity<Long> implements Serializable {
 	@JoinColumn(name = "Category_ID", updatable = false, insertable = false)
 	@NotFound(action=NotFoundAction.IGNORE)
     private Category category;
+	
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Category.class, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "T_Category_ID", updatable = false, insertable = false)
+	@NotFound(action=NotFoundAction.IGNORE)
+    private Category tcategory;
 
 	@Override
 	public Long getId() {
@@ -225,6 +228,22 @@ public class UserSign extends VersionEntity<Long> implements Serializable {
 		this.areaType = areaType;
 	}
 
-	
+	public Category getTcategory() {
+		return tcategory;
+	}
+
+	public void setTcategory(Category tcategory) {
+		this.tcategory = tcategory;
+	}
+
+	public Long getTopCategoryId() {
+		return topCategoryId;
+	}
+
+	public void setTopCategoryId(Long topCategoryId) {
+		this.topCategoryId = topCategoryId;
+	}
+
+
 
 }

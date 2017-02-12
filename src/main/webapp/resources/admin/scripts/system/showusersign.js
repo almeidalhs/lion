@@ -25,9 +25,16 @@ $(function(){
 	});
 	//添加
 	$('#btnAdd').click(function(){
-		addForm.reset();
-	    addDialog.find('.modal-header h4 span').text('添加艺术节展演活动学生报名');
-	   // addDialog.modal('toggle');
+		//如果超过两个就能再添加了
+		 var row=icondg.datagrids('getdata');
+		if(row.length >= 2){
+			lion.util.error('提示','您学校名额已满');
+	    	return;
+		}else{
+			addForm.reset();
+		    addDialog.find('.modal-header h4 span').text('添加艺术节展演活动报名');
+		    addDialog.modal('toggle');
+		}			
 	});
 	 //编辑
     $('#btnEdit').click(function(){
@@ -36,11 +43,24 @@ $(function(){
 	       lion.util.info('提示','请选择要编辑记录');
 	       return;
 	    }
+	    //alert(row.status);
+	    if(row.status == 1) {
+	    	lion.util.error('提示','该学生已经通过审核,请不要修改已通过审核的学生信息');
+	    	return;
+	    }
 	    addForm.reset();
 	    addDialog.find('.modal-header h4 span').text('编辑艺术节展演活动学生报名');
 	    addDialog.modal('toggle');
 	    addForm.fill(row);
 	    $("#categoryId").combotree('val',row.categoryId);
+	    $('#groupTypeSel').combo('val',row.groupType);
+	    $('#examUserNameSel').combo('val',row.examUserName);
+	    var time = row.gradeName.replace('分', '-');
+	    var timeCode = time.replace('秒', '');
+	    var tc = timeCode.split('-');
+	    $('#minuteid').val(tc[0]);
+	    $('#secondid').val(tc[1]);
+	    
     });
     
 	//保存
@@ -140,6 +160,18 @@ handleVForm=function(vForm,submitCallBackfn){
         onkeyup:false,
         ignore: '', 
         messages: {
+        	categoryId:{
+        		required:'请选择报名项目',
+        		rangelength:jQuery.validator.format('节目长度为{0}和{1}字符之间')
+        	},
+        	examUserName:{
+        		required:'请选择节目/作品类型',
+        		rangelength:jQuery.validator.format('节目长度为{0}和{1}字符之间')
+        	},
+        	groupType:{
+        		required:'请选择组别',
+        		rangelength:jQuery.validator.format('节目长度为{0}和{1}字符之间')
+        	},
         	showName:{
         		required:'请输入节目名称',
         		rangelength:jQuery.validator.format('节目长度为{0}和{1}字符之间')
@@ -162,10 +194,37 @@ handleVForm=function(vForm,submitCallBackfn){
         	}
         },
         rules: {
-        	showName: {
-                required:true,
-                rangelength:[1,128]
-            },
+        	categoryId:{            	
+           	 required:true
+//                remote:{
+//                     url:'checkisexitcategory.htm', //后台处理程序
+//                     type: 'post',               //数据发送方式
+//                     dataType: 'json',           //接受数据格式   
+//                     data: {                     //要传递的数据
+//                   	  categoryId:function(){
+//                          var id=($('#categoryId').val());
+//                          alert(id);
+//                          if(lion.util.isNotEmpty(id)){
+//                            return id;
+//                          }
+//                          return '';
+//                        }
+//                     }
+//              }
+             },
+             
+             examUserName: {
+                 required:true,
+             },
+             
+             groupType: {
+                 required:true,
+             },
+             
+         	showName: {
+                 required:true,
+                 rangelength:[1,128]
+             },
             studentName:{
             	required: true,
                 rangelength:[1,20],

@@ -1414,10 +1414,12 @@ Page content
   /* 992px */
   /* Page content */
   .page-content-wrapper {
+    background-image: url(../img/bg.png);
     float: left;
     width: 100%;
   }
   .page-content-wrapper .page-content {
+    background-image: url(../img/bgside.png);
     margin-left: 235px;
     margin-top: 0px;
     min-height: 600px;

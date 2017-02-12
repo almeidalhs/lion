@@ -5,7 +5,14 @@ $(function () {
 	var $formuser=$('#formuser'),//基本信息
 		  $formpassword=$('#formpassword'),//修改密码
 		  $formimg=$('#formImg');//修改头像
-    
+	liondepartmentId=($('#liondepartmentId').val());
+	//alert(liondepartmentId);
+	//$('#telephoneid').val(liondepartmentId);
+	//$("#categoryId").combotree('val',row.categoryId);
+	
+	
+	$("#departmentId").combotree('val',liondepartmentId);
+	//$("#departmentId").combotree('val',departmentId);
 	//上传图片预览与剪裁
 	$('#image').uploadPreview({DivShow:'imgDiv'}); 
 	//基本信息验证表单

@@ -14,7 +14,7 @@ Author: wanglijun
 <!-- BEGIN HEAD -->
 <head>
 <meta charset="utf-8"/>
-<title>欢迎访问上海市浦东新区青少年活动中心信息管理系统</title>
+<title>欢迎访问上海市浦东新区青少年活动中心艺术信息管理系统</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -97,7 +97,7 @@ Author: wanglijun
 		<!-- BEGIN LOGIN FORM -->
 	<form class="login-form"  method="post"  action="${base}/login.htm">
 		<h3 class="form-title">
-			欢迎登录
+			<b>欢迎登录</b>
 		</h3>
 		<div class="alert alert-danger display-hide" <#if  login_error?length gt 0>style="display:block;"</#if> >
 			<button class="close" data-close="alert"></button>
@@ -151,8 +151,9 @@ Author: wanglijun
 		</div>
 	</form>
 	</div>
-
+<!--
 	<div class="person"></div>
+	-->
 </div>
 
 
