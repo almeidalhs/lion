@@ -34,9 +34,11 @@
 				<value>model/bas_policy.${database.prefix}.orm.xml</value>
 				<value>model/bas_imscategory.${database.prefix}.orm.xml</value>
 				<value>model/bas_showcategory.${database.prefix}.orm.xml</value>
+				<value>model/bas_theatrecategory.${database.prefix}.orm.xml</value>
 				<value>model/bas_imsusersign.${database.prefix}.orm.xml</value>
 				<value>model/bas_userext.${database.prefix}.orm.xml</value>
 				<value>model/bas_showusersign.${database.prefix}.orm.xml</value>
+				<value>model/bas_theatreusersign.${database.prefix}.orm.xml</value>
 				<value>model/bas_imswinner.${database.prefix}.orm.xml</value>
 				<value>model/bas_treegrid.${database.prefix}.orm.xml</value>
 				<value>model/system/bas_reminder.${database.prefix}.orm.xml</value>

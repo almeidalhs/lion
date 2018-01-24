@@ -39,7 +39,7 @@
 <!--lang-->
 <script src="${base}/resources/admin/scripts/admin-common.js" type="text/javascript"></script>
 <!-- tasks -->
-<script src="${base}/resources/admin/scripts/system/usersign.js" type="text/javascript"></script>
+<script src="${base}/resources/admin/scripts/system/theatreusersign.js" type="text/javascript"></script>
 </head>
 <body class="page-header-fixed page-sidebar-closed-hide-logo page-sidebar-closed-hide-logo">
 <!-- BEGIN PAGE CONTENT INNER -->
@@ -48,18 +48,11 @@
 		<div class="row">
 			<div class="col-md-12 margin-bottom-10">
 				<form id="queryform" class="form-horizontal">
-					<label class="control-label col-md-7" for="nameZh" >
+					<label class="control-label col-md-7" >
 					</label>
-					<!--
-					<div class="col-md-2">
-						<input  id="category"  name="category"  
-						 	placeholder="请选择比赛项目…"  type="text" 
-						 	class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>					
-					</div>
-					-->
-					
+
 					<div class="col-md-3">
-						<input class="form-control input-medium" type="text" size="30" name="studentNameSearch" id="studentNameSearch"  placeholder="请输入搜索信息"  />					
+						<input class="form-control input-medium" type="text" size="50" name="studentName" id="studentName"  placeholder="请输入搜索信息"  />					
 					</div>
 					
 					<div class="col-md-2">
@@ -72,9 +65,9 @@
 			</div>
 		
 			<div class="col-md-12 margin-bottom-10" id="toolbar">
-				<a id="btnAdd" class="btn btn-sm yellow" data-toggle="modal" href="#basic">
-					<i class="fa fa-plus"></i> <input type="hidden" id="join_num" value="0"/>
-					点击报名
+				<a id="btnAdd" class="btn btn-sm yellow">
+					<i class="fa fa-plus"></i> 
+					  点击报名
 				</a>&nbsp;&nbsp;&nbsp;
 				<a id="btnEdit" class="btn btn-sm red">
 					<i class="fa fa-edit"></i> 
@@ -94,26 +87,35 @@
 				</a>
 			</div>
 			<div class="col-md-12">
-				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_usersign_tb" data-singleselect="true",   data-loadUrl="${base}/userSign/list.json" data-checkbox="true" data-pageSize="30">
+				  <table class="lion-datagrids table table-striped table-bordered table-hover" id="sys_theatreusersign_tb" data-singleselect="true",   data-loadUrl="${base}/theatreUserSign/list.json" data-checkbox="true" data-pageSize="30">
 					<thead>
 						<tr>
 							<th class="table-checkbox" data-field='id' data-checkbox="true">
-						 		<input type="checkbox" class="group-checkable" data-set="#sys_usersign_tb.checkboxes"  data-sortable="false" />
-						 	</th>
-							<th data-field='studentName' data-sortDir="asc" style="width:70px;">
-								<@spring.message "sys.usersign.html.studentname"/>
+						 		<input type="checkbox" class="group-checkable" data-set="#sys_theatreusersign_tb.checkboxes"  data-sortable="false" />
+						 	</th>	
+						 	<th data-field="areaType" style="width:50px;">
+							 	所属教育署
 							</th>
-							<th data-field="showName" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.showname"/>
+							<th data-field="schoolName" style="width:50px;">
+							 	学校名称
 							</th>
-							<th data-field="examUserName" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.category"/>
+						 	<th data-field="category.categoryName" style="width:50px;">
+							 	展演项目
+							</th>			
+							<th data-field="showName" style="width:90px;">
+							 	节目/作品名称
 							</th>
-							<th data-field="groupType" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.group"/>
+							<th data-field="examUserName" style="width:80px;">
+							 	节目/作品类型
+							</th>	
+							<th data-field="groupType" style="width:40px;">
+							 	组别
+							</th>							
+							<th data-field="studentName" style="width:25px;">
+							 	人数
 							</th>
-							<th data-field="gradeName" style="width:50px;">
-							 	<@spring.message "sys.usersign.html.grade"/>
+							<th data-field="gradeName" style="width:40px;">
+							 	时长
 							</th>
 							<th data-field="tutor" style="width:45px;">
 							 	指导老师1
@@ -122,13 +124,13 @@
 							 	指导老师2
 							</th>
 							<th data-field="className" style="width:45px;">
-							 	学校联系人
+							 	指导老师3
 							</th>
-							<th data-field="mobile" style="width:45px;">
-								联系人手机
+							<th data-field="mobile" style="width:80px;">
+							 	节目联系人手机
 							</th>
-							<th data-field="status" style="width:50px;" data-formatter="formatterEidtable">
-							 	<@spring.message "sys.usersign.html.status" />
+							<th data-field="status" style="width:40px;" data-formatter="formatterEidtable">
+							 	审核状态
 							</th>
 						</tr>
 					</thead>
@@ -148,66 +150,30 @@
 				<h4 class="modal-title">
 					<i class="fa fa-plus"></i> 
 					<span>
-						<@spring.message "sys.usersign.form.adddialog.text"/> 
+						戏剧专场展演活动报名
 					</span>
 				</h4>
 			</div>
+			
 			<div class="modal-body">
 				 	<div class="row">
 				 	<div class="col-md-12 portlet-body form">
 				 		<!-- BEGIN FORM-->
 										<form action="#" class="form-horizontal" name="sysCodeTypeForm" id="sysCodeTypeForm" method="post">
 											<input type="hidden" id='id' name='id' value="">
-											<div class="form-body">
+											<div class="form-body">												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.category"/>
-													</label>
-													<div class="col-md-5">
-															 <input  id="categoryId"  name="categoryId"  
-						 	  	  								placeholder="比赛项目…"  type="text" 
-						 		  								class="lion-combotree form-control"   data-loadURL="${base}/category/comboxtree.json" data-width="225px" data-height="300px"/>										 
-													</div><span style="color:red">* 从项目下拉框中选择具体小项目</span>
-												</div>
-												
-											
-												<div class="form-group">
-													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.studentname"/>
+														戏剧专场展演项目
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
-															<input type="text"  id="studentName" name="studentName" maxlength="100" class="form-control" placeholder="学生姓名,多名学生请以/分割" size="80"/>
+															<input  id="categoryId"  name="categoryId"  
+								 	placeholder="戏剧专场展演各专场…"  type="text" 
+								 	class="lion-combotree form-control"   data-loadURL="${base}/theatrecategory/comboxtree.json" data-width="225px" data-height="300px"/>					
 														</div>
-													</div><span style="color:red">*</span>
+													</div>
 												</div>
-												
-												<div class="form-group">
-													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.group"/>
-													</label>
-													<div class="col-md-5">
-														 <select  id="groupTypeSel" name="groupType"  placeholder="请选择组别.."  
-														 	class="lion-combo form-control select2" data-valueField='codeValue' 
-														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=group">
-														 </select>
-													</div><span style="color:red">*</span>
-													
-												</div>
-
-												<div class="form-group">
-													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.grade"/>
-													</label>
-													<div class="col-md-5">
-														 <select  id="gradeNameSel" name="gradeName"  placeholder="请选择年级.."  
-														 	class="lion-combo form-control select2" data-valueField='codeValue' 
-														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=grade">
-														 </select>
-													</div><span style="color:red">*</span>
-												</div>
-															
-												
 												<div class="form-group">
 													<label class="col-md-3 control-label">
 														<@spring.message "sys.usersign.html.showname"/>
@@ -216,52 +182,100 @@
 														<div class="input-group">
 															<input type="text"  id="showName" name="showName" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.showname"/>" size="30"/>
 														</div>
-													</div><span style="color:red">*</span>
+													</div>
 												</div>
-
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.tutor"/>
+													 节目/作品类型
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
-															<input type="text"  id="tutor" name="tutor" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.tutor"/>" size="30"/>
-														</div>
-													</div><span style="color:red">*</span>
-												</div>
-												
-												<div class="form-group">
-													<label class="col-md-3 control-label">
-														<@spring.message "sys.usersign.html.tutor2"/>
-													</label>
-													<div class="col-md-5">
-														<div class="input-group">
-															<input type="text"  id="tutor2" name="tutor2" maxlength="100" class="form-control" placeholder="<@spring.message "sys.usersign.html.tip.tutor2"/>" size="30"/>
+															 <select  id="examUserNameSel" name="examUserName"  placeholder="创作/改编/学习"  
+														 	class="lion-combo form-control select2" data-valueField='codeValue'  value=""
+														 	data-textField='nameZh' data-URL="${base}/system/code/combox.htm?nameEn=cgx">
+														 </select>
 														</div>
 													</div>
 												</div>
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														学校联系人
+													 组别
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
-															<input type="text"  id="className" name="className" maxlength="100" class="form-control" placeholder="学校联系人" size="30"/>
+															 <select  id="groupTypeSel" name="groupType"  placeholder="展演组别.."  
+														 	class="lion-combo form-control select2" data-valueField='codeValue'  data-textField='nameZh'
+														 	 data-URL="${base}/system/code/combox.htm?nameEn=zygroup">
+														 </select>
 														</div>
-													</div><span style="color:red">*</span>
+													</div>
 												</div>
 												<div class="form-group">
 													<label class="col-md-3 control-label">
-														联系人手机
+													 人数
 													</label>
 													<div class="col-md-5">
 														<div class="input-group">
-															<input type="text"  id="mobile" name="mobile" maxlength="100" class="form-control" placeholder="联系人手机" size="30"/>
+															<input type="text"  id="studentName" name="studentName" maxlength="100" class="form-control" placeholder="请输入表演节目人数" size="30"/>
+															
 														</div>
-													</div><span style="color:red">*</span>
+													</div>
 												</div>
-					
-													
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														时长
+													</label>
+													<div class="col-md-8">
+														<div nowrap style="float: left;width: 80px;">
+															<input type="text"  id="minuteid" name="minute" size="5"/>分
+														</div>
+														<div nowrap style="float: left;width: 80px;">
+															<input type="text"  id="secondid" name="second" size="5"/>秒
+														</div>
+													</div>
+												</div>
+												
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														指导老师1
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="tutor" name="tutor" maxlength="100" class="form-control" placeholder="指导老师1姓名" size="30"/>
+														</div>
+													</div>
+												</div>
+												
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														指导老师2
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="tutor2" name="tutor2" maxlength="100" class="form-control" placeholder="指导老师2姓名" size="30"/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														指导老师3
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="className" name="className" maxlength="100" class="form-control" placeholder="指导老师3姓名" size="30"/>
+														</div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-md-3 control-label">
+														节目联系人手机
+													</label>
+													<div class="col-md-5">
+														<div class="input-group">
+															<input type="text"  id="mobile" name="mobile" maxlength="100" class="form-control" placeholder="节目联系人手机" size="30"/>
+														</div>
+													</div>
+												</div>										
 											</div>
 										</form>
 								<!-- END FORM-->

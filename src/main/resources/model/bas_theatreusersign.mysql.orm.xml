@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+	<package>com.newtouch.starter.theatreusersign</package>
+	<access>PROPERTY</access>
+	
+	<!-- 项目信息 -->
+	<entity class="TheatreUserSign">
+		<table name="bas_theatrestusign" />
+		<attributes>
+			<id name="id">
+				<column name="StuSign_ID" unique="true" nullable="false" precision="11" scale="0" />
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="categoryId">
+				<column name="Category_ID" nullable="true" updatable="true"/>
+			</basic>
+			<basic name="schUserId">
+				<column name="SchUser_ID" nullable="true" updatable="true"/>
+			</basic>
+			<basic name="studentName">
+				<column name="StudentName" length="255" nullable="true"/>
+			</basic>
+			<basic name="showName">
+				<column name="ShowName" length="255" nullable="true"/>
+			</basic>
+			<basic name="mobile">
+				<column name="mobile" length="50" nullable="true"/>
+			</basic>
+			<basic name="email">
+				<column name="email" length="100" nullable="true"/>
+			</basic>
+			<basic name="schoolName">
+				<column name="schoolName" length="100" nullable="true"/>
+			</basic>
+			<basic name="groupType">
+				<column name="groupType" length="50" nullable="true"/>
+			</basic>
+			<basic name="areaType">
+				<column name="areaType" length="50" nullable="true"/>
+			</basic>
+			<basic name="signType">
+				<column name="SignType" nullable="true"/>
+			</basic>
+			<basic name="openDate">
+				<column name="OpeDate" nullable="true"/>
+			</basic>
+			<basic name="tutor">
+				<column name="Tutor" length="50" nullable="true"/>
+			</basic>
+			<basic name="tutor2">
+				<column name="Tutor2" length="50" nullable="true"/>
+			</basic>
+			<basic name="status">
+				<column name="State" nullable="true"/>
+			</basic>
+			<basic name="examUserId">
+				<column name="ExamUser_ID" nullable="true" updatable="true"/>
+			</basic>
+			<basic name="examUserName">
+				<column name="ExamUserName" length="50" nullable="true"/>
+			</basic>
+			<basic name="sex">
+				<column name="sex" nullable="true"/>
+			</basic>
+			<basic name="className">
+				<column name="ClassName" length="20" nullable="true"/>
+			</basic>
+			<basic name="gradeName">
+				<column name="GradeName" length="20" nullable="true"/>
+			</basic>
+			<many-to-one name="category">
+				<join-column name="Category_ID"  insertable="false" updatable="false"/>
+			</many-to-one>			
+		</attributes>
+	</entity>
+</entity-mappings>
